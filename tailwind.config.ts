@@ -45,6 +45,9 @@ const config: Config = {
         55: "0.55",
         85: "0.85",
       },
+      width: {
+        25: "6.25rem",
+      },
       spacing: {
         "0.25ch": "0.25ch",
         "0.3ch": "0.3ch",
