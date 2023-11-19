@@ -1,91 +1,76 @@
-import type { Config } from "tailwindcss";
-
-const config: Config = {
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  darkMode: ["class"],
   content: [
-    "./index.html",
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
   ],
   theme: {
-    transitionDuration: {
-      DEFAULT: "200ms",
-      0: "0ms",
-      100: "100ms",
-      150: "150ms",
-      200: "200ms",
-      300: "300ms",
-      400: "400ms",
-      500: "500ms",
-      1000: "1000ms",
-    },
-    transitionTimingFunction: {
-      DEFAULT: "ease-out",
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
     },
     extend: {
       colors: {
-        "c-bg": "rgb(var(--c-bg)/<alpha-value>)",
-        "c-bg-secondary": "rgb(var(--c-bg-secondary)/<alpha-value>)",
-        "c-on-bg": "rgb(var(--c-on-bg)/<alpha-value>)",
-        "c-outline": "rgb(var(--c-outline)/<alpha-value>)",
-        "c-primary": "rgb(var(--c-primary)/<alpha-value>)",
-        "c-danger": "rgb(var(--c-danger)/<alpha-value>)",
-        "c-barrier": "rgb(var(--c-barrier)/<alpha-value>)",
-        "c-scrollbar-bg": "rgb(var(--c-scrollbar-bg)/<alpha-value>)",
-        "c-scrollbar-thumb": "rgb(var(--c-scrollbar-thumb)/<alpha-value>)",
+        border: "rgb(var(--border) / <alpha-value>)",
+        input: "rgb(var(--input) / <alpha-value>)",
+        ring: "rgb(var(--ring) / <alpha-value>)",
+        background: "rgb(var(--background) / <alpha-value>)",
+        foreground: "rgb(var(--foreground) / <alpha-value>)",
+        primary: {
+          DEFAULT: "rgb(var(--primary) / <alpha-value>)",
+          foreground: "rgb(var(--primary-foreground) / <alpha-value>)",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "rgb(var(--muted-foreground) / <alpha-value>)",
+        },
+        accent: {
+          DEFAULT: "rgb(var(--accent) / <alpha-value>)",
+          foreground: "rgb(var(--accent-foreground) / <alpha-value>)",
+        },
+        popover: {
+          DEFAULT: "rgb(var(--popover) / <alpha-value>)",
+          foreground: "rgb(var(--popover-foreground) / <alpha-value>)",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
       },
-      opacity: {
-        4: "0.04",
-        6: "0.06",
-        8: "0.08",
-        9: "0.09",
-        12: "0.12",
-        15: "0.15",
-        16: "0.16",
-        55: "0.55",
-        85: "0.85",
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
-      width: {
-        25: "6.25rem",
+      keyframes: {
+        "accordion-down": {
+          from: { height: 0 },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: 0 },
+        },
       },
-      spacing: {
-        "0.25ch": "0.25ch",
-        "0.3ch": "0.3ch",
-        "0.4ch": "0.4ch",
-        "0.5ch": "0.5ch",
-        "0.75ch": "0.75ch",
-        "1ch": "1ch",
-        "2px": "2px",
-        "3px": "3px",
-        "4px": "4px",
-        0.25: "0.0625rem",
-        0.75: "0.1875rem",
-        1.25: "0.3125rem",
-        1.75: "0.4375rem",
-        3.75: "0.9375rem",
-        4.25: "1.0625rem",
-        4.5: "1.125rem",
-        5.25: "1.3125rem",
-        5.5: "1.375rem",
-        10.25: "2.5625rem",
-        10.5: "2.625rem",
-        13: "3.25rem",
-        18: "4.5rem",
-        19: "4.75rem",
-        20.5: "5.125rem",
-        21: "5.25rem",
-        22: "5.5rem",
-      },
-      ringWidth: {
-        1.5: "1.5px",
-        3: "3px",
-      },
-      ringOffsetWidth: {
-        1.5: "1.5px",
-        3: "3px",
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 };
-export default config;
