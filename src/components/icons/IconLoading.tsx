@@ -7,7 +7,7 @@ export default function IconLoading({
 }) {
   return (
     <div className={`shrink-0 ${className}`}>
-      <div className="w-full h-full p-[15%] transform rotate-90">
+      <div className="w-full h-full p-[15%]">
         <div className="loader" />
       </div>
     </div>
