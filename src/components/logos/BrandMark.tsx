@@ -1,6 +1,6 @@
 import { iconDefaultClassName } from "@components/icons/constants";
 
-export default function IconBold({
+export default function BrandMark({
   className = iconDefaultClassName,
 }: {
   className?: string;

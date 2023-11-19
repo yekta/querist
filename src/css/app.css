@@ -3,16 +3,16 @@
 
 :root {
   color-scheme: dark;
-  --c-bg: 22 22 33;
-  --c-bg-secondary: 28 28 42;
-  --c-outline: 144 181 255;
-  --c-primary: 144 181 255;
-  --c-danger: 255 157 157;
-  --c-barrier: 16 16 24;
-  --c-on-bg: 215 215 235;
-  --o-barrier: 0.8;
+  --c-bg: 20 20 26;
+  --c-bg-secondary: 25 25 36;
+  --c-outline: 33 33 51;
+  --c-primary: 255 181 166;
+  --c-danger: 255 89 89;
+  --c-barrier: 10 10 16;
+  --c-on-bg: 218 218 242;
   --c-scrollbar-bg: 94 95 115;
   --c-scrollbar-thumb: 165 165 185;
+  --o-barrier: 0.8;
 }
 
 html[data-theme="light"] {
