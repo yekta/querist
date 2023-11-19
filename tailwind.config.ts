@@ -17,7 +17,10 @@ module.exports = {
     },
     extend: {
       colors: {
-        border: "rgb(var(--border) / <alpha-value>)",
+        border: {
+          DEFAULT: "rgb(var(--border) / <alpha-value>)",
+          secondary: "rgb(var(--border-secondary) / <alpha-value>)",
+        },
         input: "rgb(var(--input) / <alpha-value>)",
         ring: "rgb(var(--ring) / <alpha-value>)",
         background: "rgb(var(--background) / <alpha-value>)",
@@ -41,6 +44,7 @@ module.exports = {
         accent: {
           DEFAULT: "rgb(var(--accent) / <alpha-value>)",
           foreground: "rgb(var(--accent-foreground) / <alpha-value>)",
+          secondary: "rgb(var(--accent-secondary) / <alpha-value>)",
         },
         popover: {
           DEFAULT: "rgb(var(--popover) / <alpha-value>)",
@@ -49,6 +53,10 @@ module.exports = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        shadow: {
+          DEFAULT: "rgb(var(--shadow) / var(--o-shadow-normal))",
+          strong: "rgb(var(--shadow) / var(--o-shadow-strong))",
         },
       },
       borderRadius: {
@@ -65,6 +73,9 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: 0 },
         },
+      },
+      opacity: {
+        85: "0.85",
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",

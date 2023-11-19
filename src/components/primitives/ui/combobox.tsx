@@ -15,6 +15,7 @@ import {
 } from "@components/primitives/ui/popover";
 import { cn } from "@components/primitives/utils";
 import { ChevronUpDownIcon, CheckIcon } from "@heroicons/react/24/outline";
+import { useElementSize } from "usehooks-ts";
 
 export interface TComboboxItem {
   value: string;
@@ -42,6 +43,7 @@ export function Combobox({
   setOpen: (open: boolean) => void;
   SelectedItemIcon?: React.ComponentType<any>;
 }) {
+  const [buttonRef, { width: buttonWidth }] = useElementSize<any>();
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -50,9 +52,10 @@ export function Combobox({
           role="combobox"
           aria-expanded={open}
           className="w-full px-3"
+          ref={buttonRef}
         >
           {SelectedItemIcon && (
-            <SelectedItemIcon className="w-4 h-4 shrink-0 mr-1.5 -ml-0.5" />
+            <SelectedItemIcon className="w-4 h-4 shrink-0 mr-2" />
           )}
           <p className="min-w-0 flex-1 overflow-hidden overflow-ellipsis text-left">
             {value
@@ -62,7 +65,14 @@ export function Combobox({
           <ChevronUpDownIcon className="ml-2 -mr-1.5 h-5 w-5 shrink-0 text-muted-foreground" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="start" collisionPadding={8} className="w-full p-0">
+      <PopoverContent
+        style={{
+          minWidth: buttonWidth,
+        }}
+        align="start"
+        collisionPadding={8}
+        className="w-full p-0"
+      >
         <Command loop={true}>
           <CommandInput placeholder={searchPlaceholder} />
           <CommandEmpty>{noResultText}</CommandEmpty>
