@@ -2,27 +2,29 @@ import { ipcMain } from "electron";
 import { Client } from "pg";
 
 let client: Client;
+let isOpeningConnection = false;
 
 ipcMain.handle(
   "openDbConnectionIfNecessary",
   async (event, connectionString) => {
-    if (!client) {
-      client = new Client({
-        connectionString: connectionString,
-        ssl: true,
-      });
-      await client.connect();
-    }
-    return true;
+    if (client) return "open";
+    if (isOpeningConnection) return "opening";
+    client = new Client({
+      connectionString: connectionString,
+      ssl: true,
+    });
+    isOpeningConnection = true;
+    await client.connect();
+    isOpeningConnection = false;
+    return "open";
   }
 );
 
 ipcMain.handle("closeDbConnection", async (event) => {
-  if (client) {
-    await client.end();
-    client = null; // Reset the client after closing connection
-  }
-  return true;
+  if (!client) return "closed";
+  await client.end();
+  client = null;
+  return "closed";
 });
 
 ipcMain.handle("queryDb", async (event, { query, queryParams }) => {

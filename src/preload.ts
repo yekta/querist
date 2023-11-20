@@ -12,7 +12,10 @@ export const electronAPI = {
   },
   openDbConnectionIfNecessary: async (connectionString: string) => {
     try {
-      return await ipcRenderer.invoke("openDbConnection", connectionString);
+      return await ipcRenderer.invoke(
+        "openDbConnectionIfNecessary",
+        connectionString
+      );
     } catch (error) {
       console.log(error);
       return null;

@@ -50,14 +50,14 @@ export default function HomePage() {
     <div className="w-full flex flex-1 items-stretch justify-center overflow-hidden">
       <div className="w-64 flex flex-col items-start justify-start border-r border-border overflow-hidden">
         <div className="w-full border-b border-border">
-          <p className="px-4 py-3 font-black text-xl">Table Editor</p>
+          <p className="px-4.5 py-3 font-black text-xl">Table Editor</p>
         </div>
         <div className="w-full flex-1 flex flex-col items-start justify-start overflow-hidden">
           <ScrollArea className="w-full flex-1 flex flex-col items-start justify-start">
             <div className="w-full flex flex-col pb-16">
-              <section className="w-full flex flex-col">
+              <section className="w-full flex flex-col pt-1">
                 <div className="w-full flex flex-col">
-                  <div className="w-full px-4 py-2 flex items-center">
+                  <div className="w-full px-5 py-2 flex items-center">
                     <p className="font-bold text-lg flex-shrink min-w-0 overflow-hidden overflow-ellipsis pr-2">
                       Schema
                     </p>
@@ -65,7 +65,7 @@ export default function HomePage() {
                       <IconLoading className="w-4 h-4 opacity-60" />
                     )}
                   </div>
-                  <div className="w-full px-2">
+                  <div className="w-full px-3">
                     <Combobox
                       isLoading={schemasIsLoading || schemaValue === null}
                       isError={schemasIsError}
@@ -83,7 +83,7 @@ export default function HomePage() {
                 </div>
               </section>
               <section className="w-full flex flex-col pt-3">
-                <div className="w-full px-4 py-2 flex items-center">
+                <div className="w-full px-5 py-2 flex items-center">
                   <p className="font-bold text-lg flex-shrink min-w-0 overflow-hidden overflow-ellipsis pr-2">
                     Tables
                   </p>
@@ -123,7 +123,13 @@ function TableList({
     return <TableListEmptyView text="Error" Icon={ExclamationTriangleIcon} />;
 
   if (isLoading)
-    return Array.from({ length: 8 }).map(() => <TableListItemPlaceholder />);
+    return (
+      <div className="w-full flex flex-col animate-pulse duration-1000">
+        {Array.from({ length: 8 }).map(() => (
+          <TableListItemPlaceholder />
+        ))}
+      </div>
+    );
 
   if (data && data.length === 0)
     return <TableListEmptyView text="No tables found" />;
@@ -151,7 +157,7 @@ function TableListItem({
   return (
     <Link
       to="/"
-      className="px-2 py-px w-full text-sm group flex items-center justify-start cursor-default"
+      className="px-3 py-px w-full text-sm group flex items-center justify-start cursor-default"
     >
       <div
         className={`w-full flex items-center justify-start px-2.5 py-2 border ${
@@ -165,7 +171,7 @@ function TableListItem({
           ${isSelected ? "text-foreground" : "text-foreground/75"}`}
         />
         <p
-          className={`w-full overflow-hidden overflow-ellipsis group-hover:text-foreground
+          className={`shrink min-w-0 overflow-hidden overflow-ellipsis group-hover:text-foreground
           ${isSelected ? "text-foreground" : "text-foreground/75"}`}
         >
           {title}
@@ -177,12 +183,10 @@ function TableListItem({
 
 function TableListItemPlaceholder() {
   return (
-    <div className="px-2 py-px w-full text-sm group flex items-center justify-start cursor-default">
-      <div className="w-full flex items-center justify-start px-2.5 py-2">
-        <p
-          className="w-full overflow-hidden overflow-ellipsis bg-foreground/10 text-transparent 
-          rounded-full animate-pulse duration-1000"
-        >
+    <div className="px-3 py-px w-full text-sm group flex items-center justify-start cursor-default">
+      <div className="w-full flex items-center justify-start px-2.5 py-2 border border-transparent">
+        <div className="w-4 h-4 shrink-0 mr-2 bg-foreground/10" />
+        <p className="flex-1 min-w-0 overflow-hidden overflow-ellipsis bg-foreground/10 text-transparent">
           Loading
         </p>
       </div>
@@ -198,7 +202,7 @@ function TableListEmptyView({
   Icon?: React.ComponentType<any>;
 }) {
   return (
-    <div className="w-full flex items-center justify-center px-2 py-px">
+    <div className="w-full flex items-center justify-center px-3 py-px">
       <div className="w-full border border-border px-3 py-6 gap-2 flex items-center justify-center">
         {Icon && <Icon className="w-4 h-4 opacity-60" />}
         <p className="text-sm text-foreground/60">{text}</p>

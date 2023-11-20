@@ -68,7 +68,7 @@ export function Combobox({
           disabled={isLoading || isError || disabled}
         >
           {isLoading ? (
-            <IconLoading className="w-4 h-4 mr-2" />
+            <div className="w-4 h-4 mr-2 bg-foreground/20 animate-pulse duration-1000" />
           ) : isError ? (
             <ExclamationTriangleIcon className="w-4 h-4 mr-2" />
           ) : (
@@ -76,7 +76,11 @@ export function Combobox({
               <SelectedItemIcon className="w-4 h-4 shrink-0 mr-2" />
             )
           )}
-          <p className="min-w-0 flex-1 overflow-hidden overflow-ellipsis text-left">
+          <p
+            className={`min-w-0 flex-1 overflow-hidden overflow-ellipsis text-left ${
+              isLoading ? "bg-foreground/20 text-transparent" : ""
+            }`}
+          >
             {isError
               ? "Error"
               : isLoading

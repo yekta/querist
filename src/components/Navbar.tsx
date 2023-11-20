@@ -5,7 +5,7 @@ export default function Navbar() {
   return (
     <div className="w-full flex items-center justify-center border-b border-c-outline">
       <div className="w-full flex items-center justify-between">
-        <Link to="/" className="p-2.5">
+        <Link to="/" className="py-3 px-3.5">
           <BrandMark />
         </Link>
       </div>
