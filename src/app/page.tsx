@@ -103,7 +103,7 @@ export default function HomePage() {
           </ScrollArea>
         </div>
       </div>
-      <div className="flex-1 p-4">
+      <div className="flex-1 px-6 py-4">
         Home, {theme}, {systemTheme}
       </div>
     </div>
@@ -163,7 +163,7 @@ function TableListItem({
         className={`w-full flex items-center justify-start px-2.5 py-2 border ${
           isSelected
             ? "bg-border border-border"
-            : "border-transparent group-hover:border-border"
+            : "border-transparent group-hover:border-border group-hover:shadow-border group-hover:shadow-borderish"
         }`}
       >
         <TableCellsIcon
