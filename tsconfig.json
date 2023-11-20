@@ -17,7 +17,7 @@
       "@app/*": ["./src/app/*"],
       "@css/*": ["./src/css/*"],
       "@ts/*": ["./src/ts/*"],
-      "@handlers/*": ["./src/handlers/*"],
+      "@handlers/*": ["src/ts/handlers/*"],
       "@/*": ["./src/*"]
     }
   },

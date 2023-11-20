@@ -5,7 +5,7 @@ export function useSchemas() {
     queryKey: ["schemas"],
     queryFn: async () => {
       const res: string[] = await window.electronAPI.getSchemas(
-        "connection string goes here"
+        "postgres url goes here"
       );
       if (!res) throw new Error("Failed to get schemas");
       return res;

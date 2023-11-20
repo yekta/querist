@@ -12,7 +12,7 @@ export default defineConfig({
       "@app": path.resolve(__dirname, "./src/app"),
       "@css": path.resolve(__dirname, "./src/css"),
       "@ts": path.resolve(__dirname, "./src/ts"),
-      "@handlers": path.resolve(__dirname, "./src/handlers"),
+      "@handlers": path.resolve(__dirname, "./src/ts/handlers"),
       "@": path.resolve(__dirname, "./src"),
     },
   },
