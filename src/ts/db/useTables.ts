@@ -6,8 +6,8 @@ export function useTables(schema: string) {
     enabled: schema !== undefined || schema !== null,
     queryKey: ["tables", schema],
     queryFn: async () => {
+      await window.electronAPI.openDbConnectionIfNecessary(connectionString);
       const res: string = await window.electronAPI.queryDb({
-        connectionString,
         query: `
           SELECT *
           FROM information_schema.tables
@@ -16,13 +16,23 @@ export function useTables(schema: string) {
         queryParams: [schema],
       });
       if (!res) throw new Error("Failed to get schemas");
-      const resJSON: TResult = JSON.parse(res);
+      const resJSON: TTablesResult = JSON.parse(res);
       return resJSON.rows;
     },
   });
-  return { ...res };
+  return {
+    ...res,
+    isLoading: res.isLoading || schema === undefined || schema === null,
+  };
 }
 
-interface TResult {
-  rows: { table_name: string; table_schema: string; table_type: string }[];
+export interface TTablesResult {
+  rows: TTablesRow[];
 }
+
+export interface TTablesRow {
+  table_name: string;
+  table_schema: string;
+  table_type: string;
+}
+[];

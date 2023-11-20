@@ -9,9 +9,8 @@ import {
 } from "@heroicons/react/24/outline";
 import { Link } from "@tanstack/react-router";
 import { useSchemas } from "@ts/db/useSchemas";
-import { useTables } from "@ts/db/useTables";
+import { TTablesRow, useTables } from "@ts/db/useTables";
 import { useEffect, useState } from "react";
-import { useElementSize } from "usehooks-ts";
 
 export default function HomePage() {
   const {
@@ -68,7 +67,7 @@ export default function HomePage() {
                   </div>
                   <div className="w-full px-2">
                     <Combobox
-                      isLoading={schemasIsLoading}
+                      isLoading={schemasIsLoading || schemaValue === null}
                       isError={schemasIsError}
                       value={schemaValue}
                       setValue={setSchemaValue}
@@ -93,37 +92,11 @@ export default function HomePage() {
                   )}
                 </div>
                 <div className="w-full flex flex-col">
-                  {tablesIsError ? (
-                    <div className="w-full flex items-center justify-center px-2 py-px">
-                      <div className="w-full border border-border px-3 py-5 gap-2 flex items-center justify-center">
-                        <ExclamationTriangleIcon className="w-4 h-4 opacity-60" />
-                        <p className="text-sm text-foreground/60">Error</p>
-                      </div>
-                    </div>
-                  ) : tablesIsLoading ? (
-                    <div className="w-full flex items-center justify-center px-2 py-px">
-                      <div className="w-full border border-border px-3 py-5 gap-2 flex items-center justify-center">
-                        <IconLoading className="w-4 h-4 opacity-60" />
-                        <p className="text-sm text-foreground/60">Loading</p>
-                      </div>
-                    </div>
-                  ) : tablesData && tablesData.length === 0 ? (
-                    <div className="w-full flex items-center justify-center px-2 py-px">
-                      <p className="text-sm text-center text-foreground/60 w-full border border-border px-3 py-5">
-                        No tables found.
-                      </p>
-                    </div>
-                  ) : (
-                    tablesData &&
-                    tablesData.length > 0 &&
-                    tablesData.map((t, i) => (
-                      <TableLink
-                        isSelected={i === 0 ? true : false}
-                        key={t.table_name}
-                        title={t.table_name}
-                      />
-                    ))
-                  )}
+                  <TableList
+                    isLoading={tablesIsLoading}
+                    isError={tablesIsError}
+                    data={tablesData}
+                  />
                 </div>
               </section>
             </div>
@@ -137,7 +110,38 @@ export default function HomePage() {
   );
 }
 
-function TableLink({
+function TableList({
+  isError,
+  isLoading,
+  data,
+}: {
+  isError: boolean;
+  isLoading: boolean;
+  data: TTablesRow[];
+}) {
+  if (isError)
+    return <TableListEmptyView text="Error" Icon={ExclamationTriangleIcon} />;
+
+  if (isLoading)
+    return Array.from({ length: 8 }).map(() => <TableListItemPlaceholder />);
+
+  if (data && data.length === 0)
+    return <TableListEmptyView text="No tables found" />;
+
+  return (
+    data &&
+    data.length > 0 &&
+    data.map((t, i) => (
+      <TableListItem
+        isSelected={i === 0 ? true : false}
+        key={t.table_name}
+        title={t.table_name}
+      />
+    ))
+  );
+}
+
+function TableListItem({
   title,
   isSelected,
 }: {
@@ -168,5 +172,37 @@ function TableLink({
         </p>
       </div>
     </Link>
+  );
+}
+
+function TableListItemPlaceholder() {
+  return (
+    <div className="px-2 py-px w-full text-sm group flex items-center justify-start cursor-default">
+      <div className="w-full flex items-center justify-start px-2.5 py-2">
+        <p
+          className="w-full overflow-hidden overflow-ellipsis bg-foreground/10 text-transparent 
+          rounded-full animate-pulse duration-1000"
+        >
+          Loading
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function TableListEmptyView({
+  text,
+  Icon,
+}: {
+  text: string;
+  Icon?: React.ComponentType<any>;
+}) {
+  return (
+    <div className="w-full flex items-center justify-center px-2 py-px">
+      <div className="w-full border border-border px-3 py-6 gap-2 flex items-center justify-center">
+        {Icon && <Icon className="w-4 h-4 opacity-60" />}
+        <p className="text-sm text-foreground/60">{text}</p>
+      </div>
+    </div>
   );
 }

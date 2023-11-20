@@ -5,8 +5,8 @@ export function useSchemas() {
   const res = useQuery({
     queryKey: ["schemas"],
     queryFn: async () => {
+      await window.electronAPI.openDbConnectionIfNecessary(connectionString);
       const res: string = await window.electronAPI.queryDb({
-        connectionString,
         query: "SELECT schema_name FROM information_schema.schemata",
       });
       if (!res) throw new Error("Failed to get schemas");

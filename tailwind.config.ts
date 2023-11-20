@@ -19,7 +19,7 @@ module.exports = {
       colors: {
         border: {
           DEFAULT: "rgb(var(--border) / <alpha-value>)",
-          secondary: "rgb(var(--border-secondary) / <alpha-value>)",
+          stronger: "rgb(var(--border-stronger) / <alpha-value>)",
         },
         input: "rgb(var(--input) / <alpha-value>)",
         ring: "rgb(var(--ring) / <alpha-value>)",
@@ -39,12 +39,15 @@ module.exports = {
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
-          foreground: "rgb(var(--muted-foreground) / <alpha-value>)",
+          foreground: {
+            DEFAULT: "rgb(var(--muted-foreground) / <alpha-value>)",
+            stronger: "rgb(var(--muted-foreground-stronger) / <alpha-value>)",
+          },
         },
         accent: {
           DEFAULT: "rgb(var(--accent) / <alpha-value>)",
+          stronger: "rgb(var(--accent-stronger) / <alpha-value>)",
           foreground: "rgb(var(--accent-foreground) / <alpha-value>)",
-          secondary: "rgb(var(--accent-secondary) / <alpha-value>)",
         },
         popover: {
           DEFAULT: "rgb(var(--popover) / <alpha-value>)",
