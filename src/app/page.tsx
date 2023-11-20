@@ -8,8 +8,8 @@ import {
   ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "@tanstack/react-router";
-import { useSchemas } from "@ts/hooks/useSchemas";
-import { useTables } from "@ts/hooks/useTables";
+import { useSchemas } from "@ts/db/useSchemas";
+import { useTables } from "@ts/db/useTables";
 import { useEffect, useState } from "react";
 import { useElementSize } from "usehooks-ts";
 
@@ -37,7 +37,6 @@ export default function HomePage() {
     isRefetching: tablesIsRefetching,
     isError: tablesIsError,
   } = useTables(schemaValue);
-  console.log(tablesData, tablesIsLoading);
   const [schemaOpen, setSchemaOpen] = useState<boolean>(false);
 
   const [sidebarRef, { width: sidebarWidth, height: sidebarHeight }] =
@@ -123,7 +122,13 @@ export default function HomePage() {
                   ) : (
                     tablesData &&
                     tablesData.length > 0 &&
-                    tablesData.map((t) => <TableLink key={t} title={t} />)
+                    tablesData.map((t, i) => (
+                      <TableLink
+                        isSelected={i === 0 ? true : false}
+                        key={t}
+                        title={t}
+                      />
+                    ))
                   )}
                 </div>
               </section>
@@ -138,15 +143,33 @@ export default function HomePage() {
   );
 }
 
-function TableLink({ title }: { title: string }) {
+function TableLink({
+  title,
+  isSelected,
+}: {
+  title: string;
+  isSelected: boolean;
+}) {
   return (
     <Link
       to="/"
       className="px-2 py-px w-full text-sm group flex items-center justify-start cursor-default"
     >
-      <div className="w-full flex items-center justify-start px-2.5 py-2 group-hover:bg-border">
-        <TableCellsIcon className="w-4 h-4 text-foreground/75 shrink-0 mr-2" />
-        <p className="w-full overflow-hidden overflow-ellipsis text-foreground/75">
+      <div
+        className={`w-full flex items-center justify-start px-2.5 py-2 border ${
+          isSelected
+            ? "bg-border border-border"
+            : "border-transparent group-hover:border-border"
+        }`}
+      >
+        <TableCellsIcon
+          className={`w-4 h-4 shrink-0 mr-2 group-hover:text-foreground
+          ${isSelected ? "text-foreground" : "text-foreground/75"}`}
+        />
+        <p
+          className={`w-full overflow-hidden overflow-ellipsis group-hover:text-foreground
+          ${isSelected ? "text-foreground" : "text-foreground/75"}`}
+        >
           {title}
         </p>
       </div>

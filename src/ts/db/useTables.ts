@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
+import { connectionString } from "@ts/db/connectionString";
 
 export function useTables(schemaName: string | null) {
   const res = useQuery({
     queryKey: ["tables", schemaName],
     queryFn: async () => {
       const res: string = await window.electronAPI.queryDb({
-        connectionString: "connection string",
+        connectionString,
         query: `
           SELECT table_name
           FROM information_schema.tables

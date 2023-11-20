@@ -11,13 +11,15 @@
     "baseUrl": ".",
     "outDir": "dist",
     "moduleResolution": "node",
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
     "resolveJsonModule": true,
     "paths": {
       "@components/*": ["./src/components/*"],
       "@app/*": ["./src/app/*"],
       "@css/*": ["./src/css/*"],
       "@ts/*": ["./src/ts/*"],
-      "@handlers/*": ["src/ts/handlers/*"],
+      "@handlers/*": ["src/ts/db/ipcHandlers/*"],
       "@/*": ["./src/*"]
     }
   },

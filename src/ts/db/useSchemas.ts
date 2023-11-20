@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
+import { connectionString } from "@ts/db/connectionString";
 
 export function useSchemas() {
   const res = useQuery({
     queryKey: ["schemas"],
     queryFn: async () => {
       const res: string = await window.electronAPI.queryDb({
-        connectionString: "connection string",
+        connectionString,
         query: "SELECT schema_name FROM information_schema.schemata",
       });
       if (!res) throw new Error("Failed to get schemas");
