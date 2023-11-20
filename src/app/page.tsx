@@ -39,9 +39,6 @@ export default function HomePage() {
   } = useTables(schemaValue);
   const [schemaOpen, setSchemaOpen] = useState<boolean>(false);
 
-  const [sidebarRef, { width: sidebarWidth, height: sidebarHeight }] =
-    useElementSize();
-
   useEffect(() => {
     if (!schemasIsLoading && !schemasIsError) {
       setSchemaValue(
@@ -51,18 +48,15 @@ export default function HomePage() {
   }, [schemasIsLoading, schemasIsError]);
 
   return (
-    <div className="w-full flex flex-1 items-stretch justify-center">
+    <div className="w-full flex flex-1 items-stretch justify-center overflow-hidden">
       <div className="w-64 flex flex-col items-start justify-start border-r border-border overflow-hidden">
         <div className="w-full border-b border-border">
           <p className="px-4 py-3 font-black text-xl">Table Editor</p>
         </div>
-        <div ref={sidebarRef} className="w-full flex-1 overflow-hidden">
-          <ScrollArea style={{ width: sidebarWidth, height: sidebarHeight }}>
-            <div
-              style={{ width: sidebarWidth }}
-              className="flex flex-col pb-16"
-            >
-              <section className="w-full flex flex-col overflow-hidden">
+        <div className="w-full flex-1 flex flex-col items-start justify-start overflow-hidden">
+          <ScrollArea className="w-full flex-1 flex flex-col items-start justify-start">
+            <div className="w-full flex flex-col pb-16">
+              <section className="w-full flex flex-col">
                 <div className="w-full flex flex-col">
                   <div className="w-full px-4 py-2 flex items-center">
                     <p className="font-bold text-lg flex-shrink min-w-0 overflow-hidden overflow-ellipsis pr-2">
@@ -89,7 +83,7 @@ export default function HomePage() {
                   </div>
                 </div>
               </section>
-              <section className="w-full flex flex-col pt-3 overflow-hidden">
+              <section className="w-full flex flex-col pt-3">
                 <div className="w-full px-4 py-2 flex items-center">
                   <p className="font-bold text-lg flex-shrink min-w-0 overflow-hidden overflow-ellipsis pr-2">
                     Tables
@@ -125,8 +119,8 @@ export default function HomePage() {
                     tablesData.map((t, i) => (
                       <TableLink
                         isSelected={i === 0 ? true : false}
-                        key={t}
-                        title={t}
+                        key={t.table_name}
+                        title={t.table_name}
                       />
                     ))
                   )}

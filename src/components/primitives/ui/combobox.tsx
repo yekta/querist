@@ -54,16 +54,17 @@ export function Combobox({
   isLoading?: boolean;
   isError?: boolean;
 }) {
-  const [buttonRef, { width: buttonWidth }] = useElementSize<any>();
+  const [buttonRef, { width: buttonWidth, height: buttonHeight }] =
+    useElementSize<any>();
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
+          ref={buttonRef}
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full px-3"
-          ref={buttonRef}
+          className="w-full px-2.5"
           disabled={isLoading || isError || disabled}
         >
           {isLoading ? (
