@@ -52,6 +52,7 @@ module.exports = {
         popover: {
           DEFAULT: "rgb(var(--popover) / <alpha-value>)",
           foreground: "rgb(var(--popover-foreground) / <alpha-value>)",
+          border: "rgb(var(--popover-border) / <alpha-value>)",
         },
         card: {
           DEFAULT: "hsl(var(--card))",
@@ -85,6 +86,7 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       spacing: {
+        "1.25": "0.3125rem",
         "4.5": "1.125rem",
       },
     },

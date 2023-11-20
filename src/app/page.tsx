@@ -125,8 +125,8 @@ function TableList({
   if (isLoading)
     return (
       <div className="w-full flex flex-col animate-pulse duration-1000">
-        {Array.from({ length: 8 }).map(() => (
-          <TableListItemPlaceholder />
+        {Array.from({ length: 8 }).map((_, i) => (
+          <TableListItemPlaceholder key={i} />
         ))}
       </div>
     );
