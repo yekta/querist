@@ -99,7 +99,7 @@ export function Table({
   return (
     <table
       ref={tableRef}
-      className="text-sm -mt-px -ml-px text-left font-normal text-foreground/85 border-0.5 border-border"
+      className="text-sm -mt-px -ml-px text-left font-normal text-foreground border-0.5 border-border"
     >
       <thead ref={theadRef}>
         {table.getHeaderGroups().map((headerGroup) => (

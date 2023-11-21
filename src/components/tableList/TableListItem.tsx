@@ -23,11 +23,11 @@ export function TableListItem({
       >
         <TableCellsIcon
           className={`w-4 h-4 shrink-0 mr-2 group-hover:text-foreground
-          ${isSelected ? "text-foreground" : "text-foreground/75"}`}
+          ${isSelected ? "text-foreground" : "text-foreground/60"}`}
         />
         <p
           className={`shrink min-w-0 overflow-hidden overflow-ellipsis group-hover:text-foreground
-          ${isSelected ? "text-foreground" : "text-foreground/75"}`}
+          ${isSelected ? "text-foreground" : "text-foreground/60"}`}
         >
           {tableName}
         </p>

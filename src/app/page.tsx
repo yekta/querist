@@ -99,6 +99,27 @@ export default function HomePage() {
     setRows(tableData.rows);
   }, [tableData]);
 
+  const isTableListLoading =
+    schemaValue === undefined ||
+    selectedTable === undefined ||
+    schemaTablesIsLoading ||
+    schemaTablesData === null;
+
+  const isTableLoading =
+    schemaValue === undefined ||
+    selectedTable === undefined ||
+    schemasIsLoading ||
+    schemaTablesIsLoading ||
+    tableDataIsLoading;
+
+  const isTableNonexistent =
+    !schemasIsLoading &&
+    !schemaTablesIsLoading &&
+    !tableDataIsLoading &&
+    tableData === null &&
+    columns.length === 0 &&
+    rows.length === 0;
+
   return (
     <div className="w-full flex flex-1 items-stretch justify-center overflow-hidden">
       <div className="w-64 flex flex-col items-start justify-start border-r border-border overflow-hidden">
@@ -146,9 +167,7 @@ export default function HomePage() {
                 </div>
                 <div className="w-full flex flex-col">
                   <TableList
-                    isLoading={
-                      schemaTablesIsLoading || schemaTablesData === null
-                    }
+                    isLoading={isTableListLoading}
                     isError={schemaTablesIsError}
                     data={schemaTablesData}
                     selectedTable={selectedTable}
@@ -164,22 +183,9 @@ export default function HomePage() {
         <div className="flex-1 flex flex-col items-start justify-start overflow-auto">
           <Table
             table={table}
-            isLoading={
-              schemaValue === undefined ||
-              selectedTable === undefined ||
-              schemasIsLoading ||
-              schemaTablesIsLoading ||
-              tableDataIsLoading
-            }
+            isLoading={isTableLoading}
             isError={tableDataIsError}
-            isNonexistent={
-              !schemasIsLoading &&
-              !schemaTablesIsLoading &&
-              !tableDataIsLoading &&
-              tableData === null &&
-              columns.length === 0 &&
-              rows.length === 0
-            }
+            isNonexistent={isTableNonexistent}
           />
         </div>
       </div>
