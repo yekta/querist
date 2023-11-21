@@ -8,9 +8,19 @@ import {
   ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "@tanstack/react-router";
-import { useSchemas } from "@ts/db/useSchemas";
-import { TTablesRow, useTables } from "@ts/db/useTables";
+import { useSchemas } from "@ts/db/hooks/useSchemas";
+import { TTablesRow, useTables } from "@ts/db/hooks/useTables";
 import { useEffect, useState } from "react";
+import {
+  ColumnDef,
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { useTable } from "@ts/db/hooks/useTable";
+
+const columnHelper = createColumnHelper<any>();
 
 export default function HomePage() {
   const {
@@ -38,6 +48,19 @@ export default function HomePage() {
   } = useTables(schemaValue);
   const [schemaOpen, setSchemaOpen] = useState<boolean>(false);
 
+  const [selectedTable, setSelectedTable] = useState<string | null>(null);
+  const { data: tableData } = useTable(schemaValue, selectedTable);
+
+  const [columns, setColumns] = useState<ColumnDef<any, any>[]>([]);
+  const [rows, setRows] = useState<any[]>([]);
+  const table = useReactTable({
+    data: rows,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  });
+
+  console.log("rendering");
+
   useEffect(() => {
     if (!schemasIsLoading && !schemasIsError) {
       setSchemaValue(
@@ -45,6 +68,27 @@ export default function HomePage() {
       );
     }
   }, [schemasIsLoading, schemasIsError]);
+
+  useEffect(() => {
+    if (!tablesData) return;
+    if (tablesData.length === 0) setSelectedTable(null);
+    if (!tablesData[0]) return;
+    setSelectedTable(tablesData[0].table_name);
+  }, [tablesData]);
+
+  useEffect(() => {
+    if (!tableData || !tableData.fields || !tableData.rows) return;
+    setColumns(
+      tableData.fields.map((f) =>
+        columnHelper.accessor(f.name, {
+          id: f.name,
+          header: (info) => <TableCell value={f.name} isHeader />,
+          cell: (info) => <TableCell value={info.getValue()} />,
+        })
+      )
+    );
+    setRows(tableData.rows);
+  }, [tableData]);
 
   return (
     <div className="w-full flex flex-1 items-stretch justify-center overflow-hidden">
@@ -96,6 +140,8 @@ export default function HomePage() {
                     isLoading={tablesIsLoading}
                     isError={tablesIsError}
                     data={tablesData}
+                    selectedTable={selectedTable}
+                    setSelectedTable={setSelectedTable}
                   />
                 </div>
               </section>
@@ -103,8 +149,41 @@ export default function HomePage() {
           </ScrollArea>
         </div>
       </div>
-      <div className="flex-1 px-6 py-4">
-        Home, {theme}, {systemTheme}
+      <div className="flex-1 overflow-auto">
+        {tableData && (
+          <table className="text-sm text-left font-normal text-foreground/85">
+            <thead>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <tr key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <th key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </th>
+                  ))}
+                </tr>
+              ))}
+            </thead>
+            <tbody>
+              {table.getRowModel().rows.map((row) => (
+                <tr key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <td key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   );
@@ -114,10 +193,14 @@ function TableList({
   isError,
   isLoading,
   data,
+  selectedTable,
+  setSelectedTable,
 }: {
   isError: boolean;
   isLoading: boolean;
   data: TTablesRow[];
+  selectedTable: string | null;
+  setSelectedTable: (table: string) => void;
 }) {
   if (isError)
     return <TableListEmptyView text="Error" Icon={ExclamationTriangleIcon} />;
@@ -139,30 +222,33 @@ function TableList({
     data.length > 0 &&
     data.map((t, i) => (
       <TableListItem
-        isSelected={i === 0 ? true : false}
+        isSelected={t.table_name === selectedTable}
         key={t.table_name}
-        title={t.table_name}
+        tableName={t.table_name}
+        setTable={setSelectedTable}
       />
     ))
   );
 }
 
 function TableListItem({
-  title,
+  tableName,
   isSelected,
+  setTable,
 }: {
-  title: string;
+  tableName: string;
   isSelected: boolean;
+  setTable: (table: string) => void;
 }) {
   return (
-    <Link
-      to="/"
+    <button
+      onClick={() => setTable(tableName)}
       className="px-3 py-px w-full text-sm group flex items-center justify-start cursor-default"
     >
       <div
-        className={`w-full flex items-center justify-start px-2.5 py-2 border ${
+        className={`w-full flex items-center justify-start px-2.5 py-2 border transition-[background] ${
           isSelected
-            ? "bg-border border-border"
+            ? "bg-border border-border shadow-border shadow-borderish"
             : "border-transparent group-hover:border-border group-hover:shadow-border group-hover:shadow-borderish"
         }`}
       >
@@ -174,10 +260,10 @@ function TableListItem({
           className={`shrink min-w-0 overflow-hidden overflow-ellipsis group-hover:text-foreground
           ${isSelected ? "text-foreground" : "text-foreground/75"}`}
         >
-          {title}
+          {tableName}
         </p>
       </div>
-    </Link>
+    </button>
   );
 }
 
@@ -208,5 +294,25 @@ function TableListEmptyView({
         <p className="text-sm text-foreground/60">{text}</p>
       </div>
     </div>
+  );
+}
+
+function TableCell({ isHeader, value }: { isHeader?: boolean; value: any }) {
+  return (
+    <p
+      className={`py-2 px-2 max-w-[13rem] ring-1 ring-border overflow-hidden whitespace-nowrap ${
+        isHeader
+          ? "bg-background-secondary font-bold text-foreground"
+          : "bg-background"
+      }`}
+    >
+      {value === null
+        ? "NULL"
+        : value === false
+        ? "FALSE"
+        : value === true
+        ? "TRUE"
+        : value}
+    </p>
   );
 }

@@ -23,7 +23,10 @@ module.exports = {
         },
         input: "rgb(var(--input) / <alpha-value>)",
         ring: "rgb(var(--ring) / <alpha-value>)",
-        background: "rgb(var(--background) / <alpha-value>)",
+        background: {
+          DEFAULT: "rgb(var(--background) / <alpha-value>)",
+          secondary: "rgb(var(--background-secondary) / <alpha-value>)",
+        },
         foreground: "rgb(var(--foreground) / <alpha-value>)",
         primary: {
           DEFAULT: "rgb(var(--primary) / <alpha-value>)",
@@ -68,6 +71,9 @@ module.exports = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      ringWidth: {
+        "0.5": "0.5px",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: 0 },
@@ -82,7 +88,7 @@ module.exports = {
         85: "0.85",
       },
       boxShadow: {
-        borderish: "inset 0 0 0 1.5px",
+        borderish: "inset 0 0 0 1px",
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",

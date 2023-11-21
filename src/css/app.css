@@ -8,6 +8,7 @@
   }
   :root {
     --background: 255 255 255;
+    --background-secondary: 245 245 245;
     --foreground: 0 0 0;
 
     --card: 0 0% 100%;
@@ -48,6 +49,7 @@
  
   .dark {
     --background: 20 20 26;
+    --background-secondary: 25 25 36;
     --foreground: 218 218 242;
  
     --card: 222.2 84% 4.9%;
@@ -83,6 +85,11 @@
     --shadow: 0 0 8;
     --o-shadow-normal: 0.15;
     --o-shadow-strong: 0.25;
+  }
+
+  td, th {
+    margin: 0;
+    padding: 0;
   }
 
   .loader {
