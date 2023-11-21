@@ -1,7 +1,7 @@
 import IconLoading from "@components/icons/IconLoading";
 import { Combobox, TComboboxItem } from "@components/primitives/ui/combobox";
 import { ScrollArea } from "@components/primitives/ui/scroll-area";
-import { DocumentTextIcon } from "@heroicons/react/24/outline";
+import { DocumentTextIcon, TableCellsIcon } from "@heroicons/react/24/outline";
 import { useSchemas } from "@ts/db/hooks/useSchemas";
 import { useSchemaTables } from "@ts/db/hooks/useSchemaTables";
 import { useEffect, useState } from "react";
@@ -172,7 +172,7 @@ export default function HomePage() {
               tableDataIsLoading
             }
             isError={tableDataIsError}
-            isNonexistant={
+            isNonexistent={
               !schemasIsLoading &&
               !schemaTablesIsLoading &&
               !tableDataIsLoading &&
