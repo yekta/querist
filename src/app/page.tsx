@@ -1,25 +1,20 @@
 import IconLoading from "@components/icons/IconLoading";
 import { Combobox, TComboboxItem } from "@components/primitives/ui/combobox";
 import { ScrollArea } from "@components/primitives/ui/scroll-area";
-import { useTheme } from "@components/providers/ThemeProvider";
-import {
-  DocumentTextIcon,
-  TableCellsIcon,
-  ExclamationTriangleIcon,
-} from "@heroicons/react/24/outline";
-import { Link } from "@tanstack/react-router";
+import { DocumentTextIcon } from "@heroicons/react/24/outline";
 import { useSchemas } from "@ts/db/hooks/useSchemas";
-import { TTablesRow, useTables } from "@ts/db/hooks/useTables";
+import { useTables } from "@ts/db/hooks/useTables";
 import { useEffect, useState } from "react";
 import {
   ColumnDef,
-  Table,
   createColumnHelper,
-  flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import { useTable } from "@ts/db/hooks/useTable";
+import { Table } from "@components/table/Table";
+import { TableCell } from "@components/table/TableCell";
+import { TableList } from "@components/tableList/TableList";
 
 const columnHelper = createColumnHelper<any>();
 
@@ -30,7 +25,6 @@ export default function HomePage() {
     isError: schemasIsError,
     isRefetching: schemasIsRefetching,
   } = useSchemas();
-  const { theme, systemTheme } = useTheme();
   const schemas: TComboboxItem[] | null =
     !schemasIsLoading && !schemasIsError
       ? schemasData.map((s) => ({
@@ -154,184 +148,10 @@ export default function HomePage() {
         </div>
       </div>
       <div className="flex-1 overflow-hidden flex flex-col">
-        <div className="w-full flex-1 flex flex-col items-start justify-start overflow-auto">
+        <div className="flex-1 flex flex-col items-start justify-start overflow-auto">
           <Table table={table} isLoading={tableDataIsLoading} />
         </div>
       </div>
     </div>
-  );
-}
-
-function TableList({
-  isError,
-  isLoading,
-  data,
-  selectedTable,
-  setSelectedTable,
-}: {
-  isError: boolean;
-  isLoading: boolean;
-  data: TTablesRow[];
-  selectedTable: string | null;
-  setSelectedTable: (table: string) => void;
-}) {
-  if (isError)
-    return <TableListEmptyView text="Error" Icon={ExclamationTriangleIcon} />;
-
-  if (isLoading)
-    return (
-      <div className="w-full flex flex-col animate-pulse duration-1000">
-        {Array.from({ length: 8 }).map((_, i) => (
-          <TableListItemPlaceholder key={i} />
-        ))}
-      </div>
-    );
-
-  if (data && data.length === 0)
-    return <TableListEmptyView text="No tables found" />;
-
-  return (
-    data &&
-    data.length > 0 &&
-    data.map((t, i) => (
-      <TableListItem
-        isSelected={t.table_name === selectedTable}
-        key={t.table_name}
-        tableName={t.table_name}
-        setTable={setSelectedTable}
-      />
-    ))
-  );
-}
-
-function TableListItem({
-  tableName,
-  isSelected,
-  setTable,
-}: {
-  tableName: string;
-  isSelected: boolean;
-  setTable: (table: string) => void;
-}) {
-  return (
-    <button
-      onClick={() => setTable(tableName)}
-      className="px-3 py-px w-full text-sm group flex items-center justify-start cursor-default"
-    >
-      <div
-        className={`w-full flex items-center justify-start px-2.5 py-2 border transition-[background] ${
-          isSelected
-            ? "bg-border border-border shadow-border shadow-borderish"
-            : "border-transparent group-hover:border-border group-hover:shadow-border group-hover:shadow-borderish"
-        }`}
-      >
-        <TableCellsIcon
-          className={`w-4 h-4 shrink-0 mr-2 group-hover:text-foreground
-          ${isSelected ? "text-foreground" : "text-foreground/75"}`}
-        />
-        <p
-          className={`shrink min-w-0 overflow-hidden overflow-ellipsis group-hover:text-foreground
-          ${isSelected ? "text-foreground" : "text-foreground/75"}`}
-        >
-          {tableName}
-        </p>
-      </div>
-    </button>
-  );
-}
-
-function TableListItemPlaceholder() {
-  return (
-    <div className="px-3 py-px w-full text-sm group flex items-center justify-start cursor-default">
-      <div className="w-full flex items-center justify-start px-2.5 py-2 border border-transparent">
-        <div className="w-4 h-4 shrink-0 mr-2 bg-foreground/10" />
-        <p className="flex-1 min-w-0 overflow-hidden overflow-ellipsis bg-foreground/10 text-transparent">
-          Loading
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function TableListEmptyView({
-  text,
-  Icon,
-}: {
-  text: string;
-  Icon?: React.ComponentType<any>;
-}) {
-  return (
-    <div className="w-full flex items-center justify-center px-3 py-px">
-      <div className="w-full border border-border px-3 py-6 gap-2 flex items-center justify-center">
-        {Icon && <Icon className="w-4 h-4 opacity-60" />}
-        <p className="text-sm text-foreground/60">{text}</p>
-      </div>
-    </div>
-  );
-}
-
-function TableCell({ isHeader, value }: { isHeader?: boolean; value: any }) {
-  return (
-    <p
-      className={`py-2 px-2 max-w-[13rem] ring-1 ring-border overflow-hidden whitespace-nowrap ${
-        isHeader
-          ? "bg-background-secondary font-bold text-foreground"
-          : "bg-background"
-      }`}
-    >
-      {value === null
-        ? "NULL"
-        : value === false
-        ? "FALSE"
-        : value === true
-        ? "TRUE"
-        : value}
-    </p>
-  );
-}
-
-function Table({
-  table,
-  isLoading,
-}: {
-  table: Table<any>;
-  isLoading: boolean;
-}) {
-  if (isLoading)
-    return (
-      <div className="flex-1 flex items-center justify-center w-full">
-        <IconLoading className="w-8 h-8 opacity-60" />
-      </div>
-    );
-  return (
-    <table className="text-sm text-left font-normal text-foreground/85">
-      <thead>
-        {table.getHeaderGroups().map((headerGroup) => (
-          <tr key={headerGroup.id}>
-            {headerGroup.headers.map((header) => (
-              <th key={header.id}>
-                {header.isPlaceholder
-                  ? null
-                  : flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody>
-        {table.getRowModel().rows.map((row) => (
-          <tr key={row.id}>
-            {row.getVisibleCells().map((cell) => (
-              <td key={cell.id}>
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
   );
 }

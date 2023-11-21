@@ -1,11 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { connectionString } from "@ts/db/connectionString";
 
-interface TUseTableProps {
-  schemaName: string;
-  tableName: string;
-}
-
 export function useTable(schemaName?: string, tableName?: string) {
   const enabled =
     schemaName !== null &&

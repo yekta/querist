@@ -88,7 +88,8 @@ module.exports = {
         85: "0.85",
       },
       boxShadow: {
-        borderish: "inset 0 0 0 1px",
+        borderish: "inset 0 0 0 0.5px",
+        "cell-selected": "inset 0 0 0 1.5px",
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -97,6 +98,9 @@ module.exports = {
       spacing: {
         "1.25": "0.3125rem",
         "4.5": "1.125rem",
+      },
+      borderWidth: {
+        0.5: "0.5px",
       },
     },
   },
