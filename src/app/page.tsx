@@ -1,22 +1,15 @@
 import IconLoading from "@components/icons/IconLoading";
 import { Combobox, TComboboxItem } from "@components/primitives/ui/combobox";
 import { ScrollArea } from "@components/primitives/ui/scroll-area";
-import { DocumentTextIcon, TableCellsIcon } from "@heroicons/react/24/outline";
+import { DocumentTextIcon } from "@heroicons/react/24/outline";
 import { useSchemas } from "@ts/db/hooks/useSchemas";
 import { useSchemaTables } from "@ts/db/hooks/useSchemaTables";
 import { useEffect, useState } from "react";
-import {
-  ColumnDef,
-  createColumnHelper,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
 import { useTable } from "@ts/db/hooks/useTable";
-import { Table } from "@components/table/Table";
-import { TableCell } from "@components/table/TableCell";
+import { DataGridQ, TRow } from "@components/dataGrid/DataGridQ";
 import { TableList } from "@components/tableList/TableList";
-
-const columnHelper = createColumnHelper<any>();
+import type { Column } from "react-data-grid";
+import { SelectColumn } from "react-data-grid";
 
 export default function HomePage() {
   const {
@@ -75,28 +68,22 @@ export default function HomePage() {
 
   const [schemaOpen, setSchemaOpen] = useState<boolean>(false);
 
-  const [columns, setColumns] = useState<ColumnDef<any, any>[]>([]);
+  const [columns, setColumns] = useState<Column<TRow>[]>([]);
   const [rows, setRows] = useState<any[]>([]);
-  const table = useReactTable({
-    data: rows,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
 
   useEffect(() => {
     setColumns([]);
     setRows([]);
     if (!tableData) return;
-    setColumns(
-      tableData.fields.map((f) =>
-        columnHelper.accessor(f.name, {
-          id: f.name,
-          header: (info) => <TableCell value={f.name} isHeader />,
-          cell: (info) => <TableCell value={info.getValue()} />,
-        })
-      )
-    );
+    const columns = tableData.fields.map((f, i) => ({
+      key: f.name,
+      ...f,
+      frozen: i === 0,
+      resizable: true,
+    }));
+    setColumns([{ ...SelectColumn }, ...columns]);
     setRows(tableData.rows);
+    console.log(tableData.rows);
   }, [tableData]);
 
   const isTableListLoading =
@@ -179,15 +166,14 @@ export default function HomePage() {
           </ScrollArea>
         </div>
       </div>
-      <div className="flex-1 overflow-hidden flex flex-col">
-        <div className="flex-1 flex flex-col items-start justify-start overflow-auto">
-          <Table
-            table={table}
-            isLoading={isTableLoading}
-            isError={tableDataIsError}
-            isNonexistent={isTableNonexistent}
-          />
-        </div>
+      <div className="w-full flex-1 overflow-hidden">
+        <DataGridQ
+          columns={columns}
+          rows={rows}
+          isLoading={isTableLoading}
+          isError={tableDataIsError}
+          isNonexistent={isTableNonexistent}
+        />
       </div>
     </div>
   );

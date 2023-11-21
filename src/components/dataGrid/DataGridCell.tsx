@@ -1,4 +1,4 @@
-export function TableCell({
+export function DataGridCell({
   isHeader,
   value,
 }: {

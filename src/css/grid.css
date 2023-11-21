@@ -1,0 +1,40 @@
+
+.data-grid {
+  --rdg-row-hover-background-color: transparent !important;
+}
+  
+.fill-grid {
+  block-size: 100%;
+}
+
+.rdg {
+  background: rgb(var(--background)/1);
+  color: rgb(var(--foreground)/1);
+}
+
+.rdg-cell {
+  border-inline-end: 1px solid rgb(var(--border)/1);
+  border-block-end: 1px solid rgb(var(--border)/1);
+  box-shadow: none;
+}
+
+.rdg-cell[role="columnheader"] {
+  background: rgb(var(--background-secondary)/1);
+}
+
+.rdg-cell[aria-selected="true"]{
+  outline: 1.5px solid rgb(var(--primary)/1);
+  outline-offset: -1.5px;
+}
+
+.rdg-row {
+  background: rgb(var(--background)/1);
+}
+
+.rdg-row[aria-selected="true"] {
+  background: rgb(var(--background-secondary)/1);
+}
+
+.rdg-header-row {
+  background: rgb(var(--background-secondary)/1);
+}
