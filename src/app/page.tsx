@@ -13,6 +13,7 @@ import { TTablesRow, useTables } from "@ts/db/hooks/useTables";
 import { useEffect, useState } from "react";
 import {
   ColumnDef,
+  Table,
   createColumnHelper,
   flexRender,
   getCoreRowModel,
@@ -49,7 +50,10 @@ export default function HomePage() {
   const [schemaOpen, setSchemaOpen] = useState<boolean>(false);
 
   const [selectedTable, setSelectedTable] = useState<string | null>(null);
-  const { data: tableData } = useTable(schemaValue, selectedTable);
+  const { data: tableData, isLoading: tableDataIsLoading } = useTable(
+    schemaValue,
+    selectedTable
+  );
 
   const [columns, setColumns] = useState<ColumnDef<any, any>[]>([]);
   const [rows, setRows] = useState<any[]>([]);
@@ -149,41 +153,10 @@ export default function HomePage() {
           </ScrollArea>
         </div>
       </div>
-      <div className="flex-1 overflow-auto">
-        {tableData && (
-          <table className="text-sm text-left font-normal text-foreground/85">
-            <thead>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <tr key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <th key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody>
-              {table.getRowModel().rows.map((row) => (
-                <tr key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+      <div className="flex-1 overflow-hidden flex flex-col">
+        <div className="w-full flex-1 flex flex-col items-start justify-start overflow-auto">
+          <Table table={table} isLoading={tableDataIsLoading} />
+        </div>
       </div>
     </div>
   );
@@ -314,5 +287,51 @@ function TableCell({ isHeader, value }: { isHeader?: boolean; value: any }) {
         ? "TRUE"
         : value}
     </p>
+  );
+}
+
+function Table({
+  table,
+  isLoading,
+}: {
+  table: Table<any>;
+  isLoading: boolean;
+}) {
+  if (isLoading)
+    return (
+      <div className="flex-1 flex items-center justify-center w-full">
+        <IconLoading className="w-8 h-8 opacity-60" />
+      </div>
+    );
+  return (
+    <table className="text-sm text-left font-normal text-foreground/85">
+      <thead>
+        {table.getHeaderGroups().map((headerGroup) => (
+          <tr key={headerGroup.id}>
+            {headerGroup.headers.map((header) => (
+              <th key={header.id}>
+                {header.isPlaceholder
+                  ? null
+                  : flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+              </th>
+            ))}
+          </tr>
+        ))}
+      </thead>
+      <tbody>
+        {table.getRowModel().rows.map((row) => (
+          <tr key={row.id}>
+            {row.getVisibleCells().map((cell) => (
+              <td key={cell.id}>
+                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }
