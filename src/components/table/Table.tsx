@@ -1,4 +1,8 @@
 import IconLoading from "@components/icons/IconLoading";
+import {
+  ExclamationTriangleIcon,
+  TableCellsIcon,
+} from "@heroicons/react/24/outline";
 import { flexRender, type Table } from "@tanstack/react-table";
 
 export function Table({
@@ -14,20 +18,23 @@ export function Table({
 }) {
   if (isError) {
     return (
-      <div className="flex-1 flex items-center justify-center w-full">
+      <div className="flex-1 flex flex-col items-center justify-center w-full gap-2">
+        <ExclamationTriangleIcon className="w-8 h-8 text-foreground/60" />
         <p className="text-sm text-foreground/60">Something went wrong</p>
       </div>
     );
   }
   if (isLoading)
     return (
-      <div className="flex-1 flex items-center justify-center w-full">
+      <div className="flex-1 flex flex-col items-center justify-center w-full gap-2">
         <IconLoading className="w-8 h-8 opacity-60" />
+        <p className="text-sm text-foreground/0">Loading</p>
       </div>
     );
   if (isNonexistant) {
     return (
-      <div className="flex-1 flex items-center justify-center w-full">
+      <div className="flex-1 flex flex-col items-center justify-center w-full gap-2">
+        <TableCellsIcon className="w-6 h-6 text-foreground/60" />
         <p className="text-sm text-foreground/60">No table to show</p>
       </div>
     );
