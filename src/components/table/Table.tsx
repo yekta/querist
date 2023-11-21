@@ -4,16 +4,34 @@ import { flexRender, type Table } from "@tanstack/react-table";
 export function Table({
   table,
   isLoading,
+  isError,
+  isNonexistant = false,
 }: {
   table: Table<any>;
   isLoading: boolean;
+  isError?: boolean;
+  isNonexistant?: boolean;
 }) {
+  if (isError) {
+    return (
+      <div className="flex-1 flex items-center justify-center w-full">
+        <p className="text-sm text-foreground/60">Something went wrong</p>
+      </div>
+    );
+  }
   if (isLoading)
     return (
       <div className="flex-1 flex items-center justify-center w-full">
         <IconLoading className="w-8 h-8 opacity-60" />
       </div>
     );
+  if (isNonexistant) {
+    return (
+      <div className="flex-1 flex items-center justify-center w-full">
+        <p className="text-sm text-foreground/60">No table to show</p>
+      </div>
+    );
+  }
   return (
     <table className="text-sm -mt-px -ml-px text-left font-normal text-foreground/85 border-0.5 border-border">
       <thead>

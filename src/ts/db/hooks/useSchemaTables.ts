@@ -1,10 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { connectionString } from "@ts/db/connectionString";
 
-export function useTables(schema: string) {
+export function useSchemaTables(schemaName: string | undefined) {
   const res = useQuery({
-    enabled: schema !== undefined || schema !== null,
-    queryKey: ["tables", schema],
+    queryKey: ["schema-tables", schemaName],
     queryFn: async () => {
       await window.electronAPI.openDbConnectionIfNecessary(connectionString);
       const res: string = await window.electronAPI.queryDb({
@@ -13,7 +12,7 @@ export function useTables(schema: string) {
           FROM information_schema.tables
           WHERE table_schema = $1::text
         `,
-        queryParams: [schema],
+        queryParams: [schemaName],
       });
       if (!res) throw new Error("Failed to get schemas");
       const resJSON: TTablesResult = JSON.parse(res);
@@ -22,7 +21,6 @@ export function useTables(schema: string) {
   });
   return {
     ...res,
-    isLoading: res.isLoading || schema === undefined || schema === null,
   };
 }
 

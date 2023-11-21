@@ -92,7 +92,7 @@ export function Combobox({
           <ChevronUpDownIcon className="ml-2 -mr-1.5 h-5 w-5 shrink-0 text-muted-foreground" />
         </Button>
       </PopoverTrigger>
-      {!isLoading && !isError && (
+      {!isLoading && !isError && items !== undefined && (
         <PopoverContent
           style={{
             minWidth: buttonWidth,

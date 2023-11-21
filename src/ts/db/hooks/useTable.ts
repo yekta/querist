@@ -1,29 +1,33 @@
 import { useQuery } from "@tanstack/react-query";
 import { connectionString } from "@ts/db/connectionString";
 
-export function useTable(schemaName?: string, tableName?: string) {
-  const enabled =
-    schemaName !== null &&
-    schemaName !== undefined &&
-    tableName !== null &&
-    tableName !== undefined;
+export function useTable({
+  schemaName,
+  tableName,
+}: {
+  schemaName?: string;
+  tableName?: string | null;
+}) {
   const res = useQuery({
-    enabled,
     queryKey: ["table", schemaName, tableName],
     queryFn: async () => {
+      if (
+        schemaName === undefined ||
+        tableName === undefined ||
+        tableName === null
+      )
+        return null;
       await window.electronAPI.openDbConnectionIfNecessary(connectionString);
       const res: string = await window.electronAPI.queryDb({
         query: `SELECT * FROM ${schemaName}.${tableName} LIMIT 100`,
       });
       if (!res) throw new Error("Failed to get table");
       const resJSON: TTableResult = JSON.parse(res);
-      console.log(resJSON);
       return resJSON;
     },
   });
   return {
     ...res,
-    isLoading: res.isLoading || !enabled,
   };
 }
 

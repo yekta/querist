@@ -3,7 +3,7 @@ import { Combobox, TComboboxItem } from "@components/primitives/ui/combobox";
 import { ScrollArea } from "@components/primitives/ui/scroll-area";
 import { DocumentTextIcon } from "@heroicons/react/24/outline";
 import { useSchemas } from "@ts/db/hooks/useSchemas";
-import { useTables } from "@ts/db/hooks/useTables";
+import { useSchemaTables } from "@ts/db/hooks/useSchemaTables";
 import { useEffect, useState } from "react";
 import {
   ColumnDef,
@@ -25,29 +25,55 @@ export default function HomePage() {
     isError: schemasIsError,
     isRefetching: schemasIsRefetching,
   } = useSchemas();
-  const schemas: TComboboxItem[] | null =
-    !schemasIsLoading && !schemasIsError
-      ? schemasData.map((s) => ({
-          value: s,
-          label: s,
-        }))
-      : null;
-  const [schemaValue, setSchemaValue] = useState<string | null>(
-    !schemasIsLoading && !schemasIsError ? schemas[0].value : null
-  );
-  const {
-    data: tablesData,
-    isLoading: tablesIsLoading,
-    isRefetching: tablesIsRefetching,
-    isError: tablesIsError,
-  } = useTables(schemaValue);
-  const [schemaOpen, setSchemaOpen] = useState<boolean>(false);
+  let [schemas, setSchemas] = useState<TComboboxItem[] | undefined>(undefined);
+  const [schemaValue, setSchemaValue] = useState<string | undefined>(undefined);
+  const [selectedTable, setSelectedTable] = useState<string | null>(undefined);
 
-  const [selectedTable, setSelectedTable] = useState<string | null>(null);
-  const { data: tableData, isLoading: tableDataIsLoading } = useTable(
-    schemaValue,
-    selectedTable
-  );
+  useEffect(() => {
+    if (!schemasData) return;
+    setSchemaValue(schemasData.includes("public") ? "public" : schemasData[0]);
+    setSchemas(
+      schemasData.map((s) => ({
+        value: s,
+        label: s,
+      }))
+    );
+  }, [schemasData]);
+
+  const {
+    data: schemaTablesData,
+    isLoading: schemaTablesIsLoading,
+    isRefetching: schemaTablesIsRefetching,
+    isError: schemaTablesIsError,
+  } = useSchemaTables(schemaValue);
+
+  useEffect(() => {
+    setSelectedTable(undefined);
+  }, [schemaValue]);
+
+  useEffect(() => {
+    if (!schemaTablesData) return;
+    if (schemaTablesData.length === 0) {
+      setSelectedTable(null);
+      return;
+    }
+    setSelectedTable(schemaTablesData[0].table_name);
+  }, [schemaTablesData]);
+
+  const doesTableBelongToSchema = schemaTablesData
+    ?.map((s) => s.table_name)
+    .includes(selectedTable);
+
+  const {
+    data: tableData,
+    isLoading: tableDataIsLoading,
+    isError: tableDataIsError,
+  } = useTable({
+    schemaName: doesTableBelongToSchema ? schemaValue : undefined,
+    tableName: doesTableBelongToSchema ? selectedTable : undefined,
+  });
+
+  const [schemaOpen, setSchemaOpen] = useState<boolean>(false);
 
   const [columns, setColumns] = useState<ColumnDef<any, any>[]>([]);
   const [rows, setRows] = useState<any[]>([]);
@@ -57,25 +83,10 @@ export default function HomePage() {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  console.log("rendering");
-
   useEffect(() => {
-    if (!schemasIsLoading && !schemasIsError) {
-      setSchemaValue(
-        schemasData.includes("public") ? "public" : schemasData[0]
-      );
-    }
-  }, [schemasIsLoading, schemasIsError]);
-
-  useEffect(() => {
-    if (!tablesData) return;
-    if (tablesData.length === 0) setSelectedTable(null);
-    if (!tablesData[0]) return;
-    setSelectedTable(tablesData[0].table_name);
-  }, [tablesData]);
-
-  useEffect(() => {
-    if (!tableData || !tableData.fields || !tableData.rows) return;
+    setColumns([]);
+    setRows([]);
+    if (!tableData) return;
     setColumns(
       tableData.fields.map((f) =>
         columnHelper.accessor(f.name, {
@@ -109,7 +120,7 @@ export default function HomePage() {
                   </div>
                   <div className="w-full px-3">
                     <Combobox
-                      isLoading={schemasIsLoading || schemaValue === null}
+                      isLoading={schemasIsLoading || schemaValue === undefined}
                       isError={schemasIsError}
                       value={schemaValue}
                       setValue={setSchemaValue}
@@ -129,15 +140,17 @@ export default function HomePage() {
                   <p className="font-bold text-lg flex-shrink min-w-0 overflow-hidden overflow-ellipsis pr-2">
                     Tables
                   </p>
-                  {tablesIsRefetching && (
+                  {schemaTablesIsRefetching && (
                     <IconLoading className="w-4 h-4 opacity-60" />
                   )}
                 </div>
                 <div className="w-full flex flex-col">
                   <TableList
-                    isLoading={tablesIsLoading}
-                    isError={tablesIsError}
-                    data={tablesData}
+                    isLoading={
+                      schemaTablesIsLoading || schemaTablesData === null
+                    }
+                    isError={schemaTablesIsError}
+                    data={schemaTablesData}
                     selectedTable={selectedTable}
                     setSelectedTable={setSelectedTable}
                   />
@@ -149,7 +162,25 @@ export default function HomePage() {
       </div>
       <div className="flex-1 overflow-hidden flex flex-col">
         <div className="flex-1 flex flex-col items-start justify-start overflow-auto">
-          <Table table={table} isLoading={tableDataIsLoading} />
+          <Table
+            table={table}
+            isLoading={
+              schemaValue === undefined ||
+              selectedTable === undefined ||
+              schemasIsLoading ||
+              schemaTablesIsLoading ||
+              tableDataIsLoading
+            }
+            isError={tableDataIsError}
+            isNonexistant={
+              !schemasIsLoading &&
+              !schemaTablesIsLoading &&
+              !tableDataIsLoading &&
+              tableData === null &&
+              columns.length === 0 &&
+              rows.length === 0
+            }
+          />
         </div>
       </div>
     </div>

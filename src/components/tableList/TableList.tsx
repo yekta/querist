@@ -4,7 +4,7 @@ import {
   TableListItemPlaceholder,
 } from "@components/tableList/TableListItem";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import { TTablesRow } from "@ts/db/hooks/useTables";
+import { TTablesRow } from "@ts/db/hooks/useSchemaTables";
 
 export function TableList({
   isError,
