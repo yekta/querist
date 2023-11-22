@@ -2,11 +2,11 @@ import { iconDefaultClassName } from "@components/icons/constants";
 
 export default function IconTable({
   className = iconDefaultClassName,
-}: {
-  className?: string;
-}) {
+  ...rest
+}: React.SVGAttributes<HTMLOrSVGElement>) {
   return (
     <svg
+      {...rest}
       className={className}
       width="24"
       height="24"

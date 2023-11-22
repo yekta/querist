@@ -10,6 +10,7 @@ import { DataGridQ, TRow, renderCell } from "@components/dataGrid/DataGridQ";
 import { TableList } from "@components/tableList/TableList";
 import type { Column } from "react-data-grid";
 import { SelectColumn } from "react-data-grid";
+import DataGridFooter from "@components/dataGrid/DataGridFooter";
 
 export default function HomePage() {
   const {
@@ -203,7 +204,7 @@ export default function HomePage() {
           </ScrollArea>
         </div>
       </div>
-      <div className="w-full flex-1 overflow-hidden">
+      <div className="w-full flex-1 flex flex-col overflow-hidden">
         <DataGridQ
           columns={columns}
           rows={rows}
@@ -211,6 +212,7 @@ export default function HomePage() {
           isError={tableDataIsError}
           isNonexistent={isTableNonexistent}
         />
+        <DataGridFooter minPage={1} maxPage={10} currentPage={1} />
       </div>
     </div>
   );

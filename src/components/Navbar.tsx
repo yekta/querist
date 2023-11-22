@@ -40,25 +40,26 @@ export default function Navbar() {
     },
   ];
   return (
-    <div className="w-full flex items-center justify-center border-b border-c-outline">
-      <div className="w-full flex items-center justify-between">
-        <Link to="/" className="py-3 px-3.5">
-          <BrandMark className="w-6 h-6" />
-        </Link>
-        <nav className="flex items-center justify-center">
-          <ul className="flex items-center justify-center">
-            {navItems.map((navItem, i) => (
-              <li key={i}>
-                <NavbarLink
-                  {...navItem}
-                  isSelected={navItem.href === window.location.pathname}
-                />
-              </li>
-            ))}
-          </ul>
-        </nav>
-        <div className="w-13 h-9" />
-      </div>
+    <div className="w-full flex items-stretch justify-between border-b border-border">
+      <Link
+        to="/"
+        className="py-2.5 px-3.5 flex items-center justify-center cursor-default hover:bg-background-secondary"
+      >
+        <BrandMark className="w-6 h-6" />
+      </Link>
+      <nav className="flex items-center justify-center">
+        <ul className="flex items-center justify-center">
+          {navItems.map((navItem, i) => (
+            <li key={i}>
+              <NavbarLink
+                {...navItem}
+                isSelected={navItem.href === window.location.pathname}
+              />
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <div className="w-13 h-9" />
     </div>
   );
 }
@@ -71,15 +72,14 @@ function NavbarLink({ href, label, iconType, isSelected }: TNavbarLinkProps) {
     <Link
       aria-label={label}
       to={href}
-      className={`px-4 py-3 flex items-center justify-center cursor-default group/navlink transition ${
-        isSelected ? "bg-border" : "bg-border/0"
-      }`}
+      data-selected={isSelected ? "" : undefined}
+      className="px-4 py-2.5 flex items-center justify-center cursor-default group/navlink hover:bg-background-secondary 
+      transition data-[selected]:bg-border bg-border/0"
     >
       <IconSetNavbar
         type={iconType}
-        className={`w-6 h-6 transition group-hover/navlink:text-foreground ${
-          isSelected ? "text-foreground" : "text-foreground/60"
-        }`}
+        data-selected={isSelected ? "" : undefined}
+        className="w-6 h-6 transition group-hover/navlink:text-foreground data-[selected]:text-foreground text-foreground/60"
       />
     </Link>
   );

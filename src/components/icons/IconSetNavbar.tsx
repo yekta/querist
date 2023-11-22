@@ -13,16 +13,20 @@ export type TIconSetNavbarType =
   | "schema"
   | "settings";
 
+interface TIconSetNavbarProps extends React.SVGAttributes<SVGSVGElement> {
+  type: TIconSetNavbarType;
+}
+
 export default function IconSetNavbar({
   type,
   className,
-}: {
-  type: TIconSetNavbarType;
-  className?: string;
-}) {
-  if (type === "table") return <IconTable className={className} />;
-  if (type === "terminal") return <CommandLineIcon className={className} />;
-  if (type === "schema") return <IconSchema className={className} />;
-  if (type === "settings") return <Cog6ToothIcon className={className} />;
-  return <HomeIcon className={className} />;
+  ...rest
+}: TIconSetNavbarProps) {
+  if (type === "table") return <IconTable className={className} {...rest} />;
+  if (type === "terminal")
+    return <CommandLineIcon className={className} {...rest} />;
+  if (type === "schema") return <IconSchema className={className} {...rest} />;
+  if (type === "settings")
+    return <Cog6ToothIcon className={className} {...rest} />;
+  return <HomeIcon className={className} {...rest} />;
 }

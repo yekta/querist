@@ -37,7 +37,7 @@ export function DataGridQ({
     return (
       <div className="w-full h-full flex flex-col items-center justify-center gap-2">
         <ExclamationTriangleIcon className="w-8 h-8 text-foreground/60" />
-        <p className="text-sm text-foreground/60">Something went wrong</p>
+        <p className="text-foreground/60">Something went wrong</p>
       </div>
     );
   }
@@ -45,14 +45,14 @@ export function DataGridQ({
     return (
       <div className="w-full h-full flex flex-col items-center justify-center gap-2">
         <IconLoading className="w-8 h-8 opacity-60" />
-        <p className="text-sm text-foreground/0">Loading</p>
+        <p className="text-foreground/0">Loading</p>
       </div>
     );
   if (isNonexistent) {
     return (
       <div className="w-full h-full flex flex-col items-center justify-center gap-2">
         <TableCellsIcon className="w-8 h-8 text-foreground/60" />
-        <p className="text-sm text-foreground/60">No table to show</p>
+        <p className="text-foreground/60">No table to show</p>
       </div>
     );
   }
