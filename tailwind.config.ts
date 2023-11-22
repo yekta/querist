@@ -26,6 +26,7 @@ module.exports = {
         background: {
           DEFAULT: "rgb(var(--background) / <alpha-value>)",
           secondary: "rgb(var(--background-secondary) / <alpha-value>)",
+          tertiary: "rgb(var(--background-tertiary) / <alpha-value>)",
         },
         foreground: "rgb(var(--foreground) / <alpha-value>)",
         primary: {
@@ -51,7 +52,6 @@ module.exports = {
         },
         accent: {
           DEFAULT: "rgb(var(--accent) / <alpha-value>)",
-          stronger: "rgb(var(--accent-stronger) / <alpha-value>)",
           foreground: "rgb(var(--accent-foreground) / <alpha-value>)",
         },
         popover: {

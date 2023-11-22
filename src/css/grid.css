@@ -1,8 +1,4 @@
 
-.data-grid {
-  --rdg-row-hover-background-color: transparent !important;
-}
-  
 .fill-grid {
   block-size: 100%;
 }
@@ -22,6 +18,10 @@
   background: rgb(var(--background-secondary)/1);
 }
 
+.rdg-header-row {
+  background: rgb(var(--background-secondary)/1);
+}
+
 .rdg-cell[aria-selected="true"]{
   outline: 1.5px solid rgb(var(--primary)/1);
   outline-offset: -1.5px;
@@ -32,9 +32,5 @@
 }
 
 .rdg-row[aria-selected="true"] {
-  background: rgb(var(--background-secondary)/1);
-}
-
-.rdg-header-row {
-  background: rgb(var(--background-secondary)/1);
+  background: rgb(var(--background-tertiary)/1);
 }
