@@ -112,21 +112,21 @@ export function renderCell(props: RenderCellProps<TRow, any>) {
   if (value === "") return <span className="text-foreground/40">EMPTY</span>;
   if (value === false)
     return (
-      <div className="flex items-center">
-        <div className="w-1 h-1 shrink-0 mr-2 bg-danger" />
-        <p className="flex-shrink min-w-0 overflow-hidden overflow-ellipsis">
-          FALSE
-        </p>
-      </div>
+      <span
+        className="pl-3 relative before:absolute before:w-1 before:h-1 before:bg-danger 
+        before:left-0 before:top-1/2 before:transform before:-translate-y-1/2"
+      >
+        FALSE
+      </span>
     );
   if (value === true)
     return (
-      <div className="flex items-center">
-        <div className="w-1 h-1 shrink-0 mr-2 bg-success" />
-        <p className="flex-shrink min-w-0 overflow-hidden overflow-ellipsis">
-          TRUE
-        </p>
-      </div>
+      <span
+        className="pl-3 relative before:absolute before:w-1 before:h-1 before:bg-success 
+        before:left-0 before:top-1/2 before:transform before:-translate-y-1/2"
+      >
+        TRUE
+      </span>
     );
   return <>{row[column.key]}</>;
 }
