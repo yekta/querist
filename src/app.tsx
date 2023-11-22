@@ -10,6 +10,10 @@ import { z } from "zod";
 import HomePage from "@app/page";
 import RootLayout from "@app/layout";
 import AppLayout from "@app/layout-app";
+import QueriesPage from "@app/queries/page";
+import TablesPage from "@app/tables/page";
+import SchemaPage from "@app/schema/page";
+import SettingsPage from "@app/settings/page";
 
 const rootSearchSchema = z.object({
   from: z.string().optional(),
@@ -32,7 +36,38 @@ const indexRoute = new Route({
   component: HomePage,
 });
 
-const routeTree = rootRoute.addChildren([appLayoutRoute, indexRoute]);
+const queriesRoute = new Route({
+  getParentRoute: () => appLayoutRoute,
+  path: "/queries",
+  component: QueriesPage,
+});
+
+const tablesRoute = new Route({
+  getParentRoute: () => appLayoutRoute,
+  path: "/tables",
+  component: TablesPage,
+});
+
+const schemaRoute = new Route({
+  getParentRoute: () => appLayoutRoute,
+  path: "/schema",
+  component: SchemaPage,
+});
+
+const settingsRoute = new Route({
+  getParentRoute: () => appLayoutRoute,
+  path: "/settings",
+  component: SettingsPage,
+});
+
+const routeTree = rootRoute.addChildren([
+  appLayoutRoute,
+  indexRoute,
+  queriesRoute,
+  tablesRoute,
+  schemaRoute,
+  settingsRoute,
+]);
 const router = new Router({ routeTree });
 
 declare module "@tanstack/react-router" {

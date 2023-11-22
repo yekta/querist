@@ -1,1 +1,1 @@
-export const iconDefaultClassName = "w-6 h-6 flex-shrink-0";
+export const iconDefaultClassName = "w-6 h-6 shrink-0";

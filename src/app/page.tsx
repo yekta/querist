@@ -18,19 +18,32 @@ export default function HomePage() {
     isError: schemasIsError,
     isRefetching: schemasIsRefetching,
   } = useSchemas();
-  let [schemas, setSchemas] = useState<TComboboxItem[] | undefined>(undefined);
-  const [schemaValue, setSchemaValue] = useState<string | undefined>(undefined);
-  const [selectedTable, setSelectedTable] = useState<string | null>(undefined);
+
+  const getSchemasData = () =>
+    schemasData?.map((s) => ({
+      value: s,
+      label: s,
+    }));
+
+  const getSchemasValue = () =>
+    schemasData?.includes("public")
+      ? "public"
+      : schemasData?.[0]
+      ? schemasData[0]
+      : undefined;
+
+  let [schemas, setSchemas] = useState<TComboboxItem[] | undefined>(
+    getSchemasData()
+  );
+
+  const [schemaValue, setSchemaValue] = useState<string | undefined>(
+    getSchemasValue()
+  );
 
   useEffect(() => {
     if (!schemasData) return;
-    setSchemaValue(schemasData.includes("public") ? "public" : schemasData[0]);
-    setSchemas(
-      schemasData.map((s) => ({
-        value: s,
-        label: s,
-      }))
-    );
+    setSchemaValue(getSchemasValue());
+    setSchemas(getSchemasData());
   }, [schemasData]);
 
   const {
@@ -40,22 +53,29 @@ export default function HomePage() {
     isError: schemaTablesIsError,
   } = useSchemaTables(schemaValue);
 
+  const getSelectedTable = () =>
+    schemaTablesData?.[0]?.table_name
+      ? schemaTablesData[0].table_name
+      : schemaTablesData?.length === 0
+      ? null
+      : undefined;
+
+  const [selectedTable, setSelectedTable] = useState<string | null>(
+    getSelectedTable()
+  );
+
+  const doesTableBelongToSchema =
+    schemaTablesData?.map((s) => s.table_name).includes(selectedTable) ?? false;
+
   useEffect(() => {
+    if (doesTableBelongToSchema) return;
     setSelectedTable(undefined);
   }, [schemaValue]);
 
   useEffect(() => {
     if (!schemaTablesData) return;
-    if (schemaTablesData.length === 0) {
-      setSelectedTable(null);
-      return;
-    }
-    setSelectedTable(schemaTablesData[0].table_name);
+    setSelectedTable(getSelectedTable());
   }, [schemaTablesData]);
-
-  const doesTableBelongToSchema = schemaTablesData
-    ?.map((s) => s.table_name)
-    .includes(selectedTable);
 
   const {
     data: tableData,
@@ -68,27 +88,39 @@ export default function HomePage() {
 
   const [schemaOpen, setSchemaOpen] = useState<boolean>(false);
 
-  const [columns, setColumns] = useState<Column<TRow, any>[]>([]);
-  const [rows, setRows] = useState<any[]>([]);
+  const getCols: () => Column<TRow, any>[] = () =>
+    tableData?.fields
+      ? [
+          {
+            ...SelectColumn,
+          },
+          ...tableData?.fields?.map((f, i) => ({
+            key: f.name,
+            ...f,
+            frozen: i === 0,
+            resizable: true,
+            renderCell,
+          })),
+        ]
+      : [];
+
+  const getRows: () => any[] = () =>
+    tableData?.rows?.map((r, i) => ({
+      ...r,
+      id: r.id || `row-${i}`,
+    })) || [];
+
+  const [columns, setColumns] = useState<Column<TRow, any>[]>(getCols());
+  const [rows, setRows] = useState<any[]>(getRows());
 
   useEffect(() => {
-    setColumns([]);
-    setRows([]);
-    if (!tableData) return;
-    const cols: Column<TRow, any>[] = tableData.fields.map((f, i) => ({
-      key: f.name,
-      ...f,
-      frozen: i === 0,
-      resizable: true,
-      renderCell,
-    }));
-    setColumns([{ ...SelectColumn }, ...cols]);
-    setRows(
-      tableData.rows.map((r, i) => ({
-        ...r,
-        id: r.id || `row-${i}`,
-      }))
-    );
+    if (!tableData) {
+      setColumns([]);
+      setRows([]);
+    } else {
+      setColumns(getCols());
+      setRows(getRows());
+    }
   }, [tableData]);
 
   const isTableListLoading =
