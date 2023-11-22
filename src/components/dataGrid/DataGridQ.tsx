@@ -4,10 +4,15 @@ import {
   TableCellsIcon,
   CheckIcon,
 } from "@heroicons/react/24/outline";
-import DataGrid, { Column, RenderCheckboxProps } from "react-data-grid";
+import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/solid";
+import DataGrid, {
+  Column,
+  RenderCheckboxProps,
+  RenderCellProps,
+} from "react-data-grid";
 import "react-data-grid/lib/styles.css";
 import "@css/grid.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export type TRow = Record<string, any>;
 
@@ -98,4 +103,30 @@ function renderCheckbox({ onChange, ...props }: RenderCheckboxProps) {
 
 function rowKeyGetter(row: TRow) {
   return row.id;
+}
+
+export function renderCell(props: RenderCellProps<TRow, any>) {
+  const { column, row } = props;
+  const value = row[column.key];
+  if (value === null) return <span className="text-foreground/40">NULL</span>;
+  if (value === "") return <span className="text-foreground/40">EMPTY</span>;
+  if (value === false)
+    return (
+      <div className="flex items-center">
+        <div className="w-1 h-1 shrink-0 mr-2 bg-danger" />
+        <p className="flex-shrink min-w-0 overflow-hidden overflow-ellipsis">
+          FALSE
+        </p>
+      </div>
+    );
+  if (value === true)
+    return (
+      <div className="flex items-center">
+        <div className="w-1 h-1 shrink-0 mr-2 bg-success" />
+        <p className="flex-shrink min-w-0 overflow-hidden overflow-ellipsis">
+          TRUE
+        </p>
+      </div>
+    );
+  return <>{row[column.key]}</>;
 }

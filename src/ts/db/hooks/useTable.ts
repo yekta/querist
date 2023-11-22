@@ -32,7 +32,7 @@ export function useTable({
 }
 
 export interface TTableResult {
-  rows: any[];
+  rows: Record<string, any>[];
   fields: TTableField[];
 }
 

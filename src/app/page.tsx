@@ -6,7 +6,7 @@ import { useSchemas } from "@ts/db/hooks/useSchemas";
 import { useSchemaTables } from "@ts/db/hooks/useSchemaTables";
 import { useEffect, useState } from "react";
 import { useTable } from "@ts/db/hooks/useTable";
-import { DataGridQ, TRow } from "@components/dataGrid/DataGridQ";
+import { DataGridQ, TRow, renderCell } from "@components/dataGrid/DataGridQ";
 import { TableList } from "@components/tableList/TableList";
 import type { Column } from "react-data-grid";
 import { SelectColumn } from "react-data-grid";
@@ -68,22 +68,27 @@ export default function HomePage() {
 
   const [schemaOpen, setSchemaOpen] = useState<boolean>(false);
 
-  const [columns, setColumns] = useState<Column<TRow>[]>([]);
+  const [columns, setColumns] = useState<Column<TRow, any>[]>([]);
   const [rows, setRows] = useState<any[]>([]);
 
   useEffect(() => {
     setColumns([]);
     setRows([]);
     if (!tableData) return;
-    const columns = tableData.fields.map((f, i) => ({
+    const cols: Column<TRow, any>[] = tableData.fields.map((f, i) => ({
       key: f.name,
       ...f,
       frozen: i === 0,
       resizable: true,
+      renderCell,
     }));
-    setColumns([{ ...SelectColumn }, ...columns]);
-    setRows(tableData.rows);
-    console.log(tableData.rows);
+    setColumns([{ ...SelectColumn }, ...cols]);
+    setRows(
+      tableData.rows.map((r, i) => ({
+        ...r,
+        id: r.id || `row-${i}`,
+      }))
+    );
   }, [tableData]);
 
   const isTableListLoading =
