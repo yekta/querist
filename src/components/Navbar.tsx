@@ -40,7 +40,7 @@ export default function Navbar() {
     },
   ];
   return (
-    <div className="w-full flex items-stretch justify-between border-b border-border">
+    <nav className="w-full flex items-stretch justify-between border-b border-border">
       <Link
         to="/"
         className="py-2.5 px-3.5 flex items-center justify-center cursor-default hover:bg-background-secondary
@@ -61,7 +61,7 @@ export default function Navbar() {
         </ul>
       </nav>
       <div className="w-13 h-9" />
-    </div>
+    </nav>
   );
 }
 

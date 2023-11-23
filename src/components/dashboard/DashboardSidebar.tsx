@@ -9,7 +9,7 @@ export default function DashboardSidebar({
   children: React.ReactNode;
 }) {
   return (
-    <div className="w-64 flex flex-col items-start justify-start border-r border-border overflow-hidden">
+    <section className="w-64 flex flex-col items-start justify-start border-r border-border overflow-hidden">
       <div className="w-full border-b border-border">
         <p className="px-4.5 py-3 font-black text-xl">{title}</p>
       </div>
@@ -18,6 +18,6 @@ export default function DashboardSidebar({
           <div className="w-full flex flex-col pb-16">{children}</div>
         </ScrollArea>
       </div>
-    </div>
+    </section>
   );
 }
