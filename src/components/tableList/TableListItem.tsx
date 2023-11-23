@@ -19,7 +19,8 @@ export function TableListItem({
         data-selected={isSelected ? "" : undefined}
         className="w-full flex items-center justify-start px-2.5 py-2 border
         data-[selected]:bg-border data-[selected]:border-border data-[selected]:shadow-border data-[selected]:shadow-borderish
-        border-transparent group-hover:border-border group-hover:shadow-border group-hover:shadow-borderish"
+        border-transparent group-hover:border-border group-hover:shadow-border group-hover:shadow-borderish
+        group-focus-visible:ring-1 group-focus-visible:ring-foreground"
       >
         <TableCellsIcon
           data-selected={isSelected ? "" : undefined}

@@ -43,7 +43,8 @@ export default function Navbar() {
     <div className="w-full flex items-stretch justify-between border-b border-border">
       <Link
         to="/"
-        className="py-2.5 px-3.5 flex items-center justify-center cursor-default hover:bg-background-secondary"
+        className="py-2.5 px-3.5 flex items-center justify-center cursor-default hover:bg-background-secondary
+        focus-visible:ring-1 focus-visible:ring-foreground focus-visible:ring-inset"
       >
         <BrandMark className="w-6 h-6" />
       </Link>
@@ -74,7 +75,7 @@ function NavbarLink({ href, label, iconType, isSelected }: TNavbarLinkProps) {
       to={href}
       data-selected={isSelected ? "" : undefined}
       className="px-4 py-2.5 flex items-center justify-center cursor-default group/navlink hover:bg-background-secondary 
-      transition data-[selected]:bg-border bg-border/0"
+      transition data-[selected]:bg-border bg-border/0 focus-visible:ring-1 focus-visible:ring-foreground focus-visible:ring-inset"
     >
       <IconSetNavbar
         type={iconType}

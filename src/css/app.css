@@ -120,6 +120,9 @@
     margin: 0;
   }
 
+  button:focus-visible, a:focus-visible {
+    outline: none
+  }
 }
  
 @layer base {
