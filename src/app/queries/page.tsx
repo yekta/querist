@@ -1,7 +1,16 @@
+import DashboardMainArea from "@components/dashboard/DashboardMainArea";
+import DashboardPageWrapper from "@components/dashboard/DashboardPageWrapper";
+import DashboardSidebar from "@components/dashboard/DashboardSidebar";
+
 export default function QueriesPage() {
   return (
-    <div className="w-full flex-1 flex items-center justify-center">
-      Query Editor
-    </div>
+    <DashboardPageWrapper>
+      <DashboardSidebar title="Query Editor">
+        <section className="w-full flex flex-col"></section>
+      </DashboardSidebar>
+      <DashboardMainArea>
+        <section className="w-full flex flex-col flex-1"></section>
+      </DashboardMainArea>
+    </DashboardPageWrapper>
   );
 }

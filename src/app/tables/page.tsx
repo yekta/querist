@@ -11,6 +11,8 @@ import type { Column } from "react-data-grid";
 import { SelectColumn } from "react-data-grid";
 import DataGridFooter from "@components/dataGrid/DataGridFooter";
 import DashboardSidebar from "@components/dashboard/DashboardSidebar";
+import DashboardPageWrapper from "@components/dashboard/DashboardPageWrapper";
+import DashboardMainArea from "@components/dashboard/DashboardMainArea";
 
 export default function TablesPage() {
   const {
@@ -146,7 +148,7 @@ export default function TablesPage() {
     rows.length === 0;
 
   return (
-    <div className="w-full flex flex-1 items-stretch justify-center overflow-hidden">
+    <DashboardPageWrapper>
       <DashboardSidebar title="Table Editor">
         <section className="w-full flex flex-col pt-1">
           <div className="w-full flex flex-col">
@@ -195,7 +197,7 @@ export default function TablesPage() {
           </div>
         </section>
       </DashboardSidebar>
-      <div className="w-full flex-1 flex flex-col overflow-hidden">
+      <DashboardMainArea>
         <DataGridQ
           columns={columns}
           rows={rows}
@@ -204,7 +206,7 @@ export default function TablesPage() {
           isNonexistent={isTableNonexistent}
         />
         <DataGridFooter minPage={1} maxPage={10} currentPage={1} />
-      </div>
-    </div>
+      </DashboardMainArea>
+    </DashboardPageWrapper>
   );
 }
