@@ -1,21 +1,20 @@
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDarkMode } from "usehooks-ts";
 
 type TSystemTheme = "dark" | "light";
 export type TTheme = TSystemTheme | "system";
+export type TFinalTheme = "dark" | "light";
 
 export const defaultTheme: TTheme = "system";
 export const themeAtom = atomWithStorage<TTheme>("theme", defaultTheme);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const { isDarkMode } = useDarkMode();
-  const systemTheme = isDarkMode ? "dark" : "light";
-  const theme = useAtomValue(themeAtom);
+  const { finalTheme } = useTheme();
 
   useEffect(() => {
-    if (theme === "light" || (theme === "system" && systemTheme === "light")) {
+    if (finalTheme === "light") {
       if (document.documentElement.getAttribute("data-theme") !== "light") {
         document.documentElement.setAttribute("data-theme", "light");
         document.documentElement.classList.remove("dark");
@@ -28,7 +27,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         document.documentElement.classList.add("dark");
       }
     }
-  }, [theme, systemTheme]);
+  }, [finalTheme]);
 
   return children;
 }
@@ -36,10 +35,22 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 export function useTheme() {
   const [theme, setTheme] = useAtom(themeAtom);
   const { isDarkMode } = useDarkMode();
-  const systemTheme = isDarkMode ? "dark" : "light";
+  const [finalTheme, setFinalTheme] = useState<TFinalTheme>(
+    theme === "system" ? (isDarkMode ? "dark" : "light") : theme
+  );
+
+  useEffect(() => {
+    if (theme === "system") {
+      setFinalTheme(isDarkMode ? "dark" : "light");
+    } else {
+      setFinalTheme(theme);
+    }
+  }, [theme, isDarkMode]);
+
   return {
     theme,
-    systemTheme,
+    systemTheme: isDarkMode ? "dark" : "light",
     setTheme,
+    finalTheme,
   };
 }

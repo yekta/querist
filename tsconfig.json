@@ -23,5 +23,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx"]
+  "include": ["**/*.ts", "**/*.tsx", "node_modules/monaco-editor/monaco.d.ts"]
 }
