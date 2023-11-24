@@ -10,7 +10,12 @@ export default function QueriesPage() {
         <></>
       </DashboardSidebar>
       <DashboardMainArea>
-        <QueryEditor />
+        <section className="w-full flex-1">
+          <QueryEditor />
+        </section>
+        <section className="w-full flex-1 px-3 py-2 border-t border-border">
+          Results
+        </section>
       </DashboardMainArea>
     </DashboardPageWrapper>
   );

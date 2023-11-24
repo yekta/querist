@@ -1,28 +1,40 @@
 import IconLoading from "@components/icons/IconLoading";
 import { useTheme } from "@components/providers/ThemeProvider";
-import { Editor, useMonaco } from "@monaco-editor/react";
-import { useEffect } from "react";
+import {
+  getDefineThemeProps,
+  getEditorTheme,
+} from "@components/queryEditor/editorTheme";
+import { Editor, useMonaco, type EditorProps } from "@monaco-editor/react";
+import { useEffect, useState } from "react";
 
 export default function QueryEditor() {
   const { finalTheme } = useTheme();
   const monaco = useMonaco();
+  const [isMonacoReady, setIsMonacoReady] = useState(false);
 
   useEffect(() => {
-    monaco?.editor.setTheme(finalTheme === "dark" ? "vs-dark" : "light");
-  }, [finalTheme]);
+    if (!monaco?.editor || isMonacoReady) return;
+    setIsMonacoReady(true);
+  }, [monaco]);
+
+  useEffect(() => {
+    if (!isMonacoReady) return;
+    monaco.editor.defineTheme(...getDefineThemeProps(finalTheme));
+    monaco.editor.setTheme(getEditorTheme(finalTheme));
+  }, [finalTheme, isMonacoReady]);
 
   return (
     <Editor
-      className="w-full flex-1"
       defaultLanguage="sql"
       defaultValue=""
-      loading={Loading()}
-      theme={finalTheme === "dark" ? "vs-dark" : "light"}
+      loading={<EditorLoading />}
+      theme={getEditorTheme(finalTheme)}
+      options={options}
     />
   );
 }
 
-function Loading() {
+function EditorLoading() {
   return (
     <div className="w-full flex-1 flex flex-col items-center justify-center gap-2">
       <IconLoading className="w-8 h-8 opacity-60" />
@@ -30,3 +42,16 @@ function Loading() {
     </div>
   );
 }
+
+const options: EditorProps["options"] = {
+  tabSize: 2,
+  fontSize: 13,
+  minimap: {
+    enabled: false,
+  },
+  wordWrap: "on",
+  padding: {
+    top: 12,
+    bottom: 12,
+  },
+};
