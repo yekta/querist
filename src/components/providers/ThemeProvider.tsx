@@ -15,17 +15,13 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (finalTheme === "light") {
-      if (document.documentElement.getAttribute("data-theme") !== "light") {
-        document.documentElement.setAttribute("data-theme", "light");
-        document.documentElement.classList.remove("dark");
-        document.documentElement.classList.add("light");
-      }
+      document.documentElement.setAttribute("data-theme", "light");
+      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add("light");
     } else {
-      if (document.documentElement.getAttribute("data-theme") !== "dark") {
-        document.documentElement.setAttribute("data-theme", "dark");
-        document.documentElement.classList.remove("light");
-        document.documentElement.classList.add("dark");
-      }
+      document.documentElement.setAttribute("data-theme", "dark");
+      document.documentElement.classList.remove("light");
+      document.documentElement.classList.add("dark");
     }
   }, [finalTheme]);
 
