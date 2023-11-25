@@ -87,6 +87,7 @@ module.exports = {
         },
       },
       opacity: {
+        15: "0.15",
         85: "0.85",
       },
       boxShadow: {
