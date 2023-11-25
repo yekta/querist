@@ -5,14 +5,17 @@ import { useSchemas } from "@ts/db/hooks/useSchemas";
 import { useSchemaTables } from "@ts/db/hooks/useSchemaTables";
 import { useEffect, useState } from "react";
 import { useTable } from "@ts/db/hooks/useTable";
-import { DataGridQ, TRow, renderCell } from "@components/dataGrid/DataGridQ";
+import { DataGridQ, TRow } from "@components/dataGrid/DataGridQ";
 import { TableList } from "@components/tableList/TableList";
 import type { Column } from "react-data-grid";
-import { SelectColumn } from "react-data-grid";
 import DataGridFooter from "@components/dataGrid/DataGridFooter";
 import DashboardSidebar from "@components/dashboard/DashboardSidebar";
 import DashboardPageWrapper from "@components/dashboard/DashboardPageWrapper";
 import DashboardMainArea from "@components/dashboard/DashboardMainArea";
+import {
+  getGridColsFromTableResult,
+  getGridRowsFromTableResult,
+} from "@components/dataGrid/helpers";
 
 export default function TablesPage() {
   const {
@@ -91,38 +94,20 @@ export default function TablesPage() {
 
   const [schemaOpen, setSchemaOpen] = useState<boolean>(false);
 
-  const getCols: () => Column<TRow, any>[] = () =>
-    tableData?.fields
-      ? [
-          {
-            ...SelectColumn,
-          },
-          ...tableData?.fields?.map((f, i) => ({
-            key: f.name,
-            ...f,
-            frozen: i === 0,
-            resizable: true,
-            renderCell,
-          })),
-        ]
-      : [];
-
-  const getRows: () => any[] = () =>
-    tableData?.rows?.map((r, i) => ({
-      ...r,
-      id: r.id || `row-${i}`,
-    })) || [];
-
-  const [columns, setColumns] = useState<Column<TRow, any>[]>(getCols());
-  const [rows, setRows] = useState<any[]>(getRows());
+  const [columns, setColumns] = useState<Column<TRow, any>[]>(
+    getGridColsFromTableResult({ data: tableData })
+  );
+  const [rows, setRows] = useState<any[]>(
+    getGridRowsFromTableResult({ data: tableData })
+  );
 
   useEffect(() => {
     if (!tableData) {
       setColumns([]);
       setRows([]);
     } else {
-      setColumns(getCols());
-      setRows(getRows());
+      setColumns(getGridColsFromTableResult({ data: tableData }));
+      setRows(getGridRowsFromTableResult({ data: tableData }));
     }
   }, [tableData]);
 

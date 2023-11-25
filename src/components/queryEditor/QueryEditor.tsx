@@ -7,9 +7,8 @@ import {
 import { Editor, useMonaco, type EditorProps } from "@monaco-editor/react";
 import { useEffect, useState } from "react";
 
-export default function QueryEditor() {
+export default function QueryEditor({ monaco }: { monaco: any }) {
   const { finalTheme } = useTheme();
-  const monaco = useMonaco();
   const [isMonacoReady, setIsMonacoReady] = useState(false);
 
   useEffect(() => {
