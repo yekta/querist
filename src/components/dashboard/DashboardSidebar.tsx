@@ -1,4 +1,4 @@
-import { ScrollArea } from "@radix-ui/react-scroll-area";
+import { ScrollArea } from "@components/primitives/ui/scroll-area";
 import React from "react";
 
 export default function DashboardSidebar({
