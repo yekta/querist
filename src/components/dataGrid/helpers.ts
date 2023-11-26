@@ -2,13 +2,20 @@ import { TRow, renderCell } from "@components/dataGrid/DataGridQ";
 import { TTableResult } from "@ts/db/hooks/useTable";
 import { Column, SelectColumn } from "react-data-grid";
 
+export function getGridColsAndRowsFromTableResult({
+  data,
+  hasSelect = true,
+}: TGridColsAndRowsFromTableProps) {
+  return {
+    rows: getGridRowsFromTableResult({ data }),
+    cols: getGridColsFromTableResult({ data, hasSelect }),
+  };
+}
+
 export function getGridColsFromTableResult({
   data,
   hasSelect = true,
-}: {
-  data: TTableResult;
-  hasSelect?: boolean;
-}): Column<TRow, any>[] {
+}: TGridColsFromTableProps): Column<TRow, any>[] {
   let arr: Column<TRow, any>[] = [];
   if (hasSelect && data?.fields) arr.push({ ...SelectColumn });
   if (data?.fields)
@@ -26,9 +33,7 @@ export function getGridColsFromTableResult({
 
 export function getGridRowsFromTableResult({
   data,
-}: {
-  data: TTableResult;
-}): any[] {
+}: TGridRowsFromTableProps): any[] {
   return (
     data?.rows?.map((r, i) => ({
       ...r,
@@ -36,3 +41,15 @@ export function getGridRowsFromTableResult({
     })) || []
   );
 }
+
+type TGridRowsFromTableProps = {
+  data: TTableResult;
+};
+
+type TGridColsFromTableProps = {
+  data: TTableResult;
+  hasSelect?: boolean;
+};
+
+export type TGridColsAndRowsFromTableProps = TGridRowsFromTableProps &
+  TGridColsFromTableProps;

@@ -1,5 +1,9 @@
+import { TRow } from "@components/dataGrid/DataGridQ";
+import { getGridColsAndRowsFromTableResult } from "@components/dataGrid/helpers";
 import { useQuery } from "@tanstack/react-query";
 import { connectionString } from "@ts/db/connectionString";
+import { useEffect, useState } from "react";
+import { Column } from "react-data-grid";
 
 export function useTable({
   schemaName,
@@ -8,7 +12,7 @@ export function useTable({
   schemaName?: string;
   tableName?: string | null;
 }) {
-  const res = useQuery({
+  const { data, ...rest } = useQuery({
     queryKey: ["table", schemaName, tableName],
     queryFn: async () => {
       if (
@@ -26,8 +30,28 @@ export function useTable({
       return resJSON;
     },
   });
+
+  const { cols: initColumns, rows: initRows } =
+    getGridColsAndRowsFromTableResult({
+      data,
+    });
+
+  const [columns, setColumns] = useState<Column<TRow, any>[]>(initColumns);
+  const [rows, setRows] = useState<any[]>(initRows);
+
+  useEffect(() => {
+    const { cols, rows } = getGridColsAndRowsFromTableResult({
+      data,
+    });
+    setColumns(cols);
+    setRows(rows);
+  }, [data]);
+
   return {
-    ...res,
+    ...rest,
+    data,
+    columns,
+    rows,
   };
 }
 

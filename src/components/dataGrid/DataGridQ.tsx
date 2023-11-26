@@ -4,7 +4,6 @@ import {
   TableCellsIcon,
   CheckIcon,
 } from "@heroicons/react/24/outline";
-import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/solid";
 import DataGrid, {
   Column,
   RenderCheckboxProps,
@@ -41,6 +40,7 @@ export function DataGridQ({
       </div>
     );
   }
+
   if (isLoading)
     return (
       <div className="w-full h-full flex flex-col items-center justify-center gap-2">
@@ -48,6 +48,7 @@ export function DataGridQ({
         <p className="text-foreground/0">Loading</p>
       </div>
     );
+
   if (isNonexistent) {
     return (
       <div className="w-full h-full flex flex-col items-center justify-center gap-2">
@@ -56,6 +57,7 @@ export function DataGridQ({
       </div>
     );
   }
+
   return (
     <DataGrid
       onSelectedRowsChange={setSelectedRows}

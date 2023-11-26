@@ -5,17 +5,12 @@ import { useSchemas } from "@ts/db/hooks/useSchemas";
 import { useSchemaTables } from "@ts/db/hooks/useSchemaTables";
 import { useEffect, useState } from "react";
 import { useTable } from "@ts/db/hooks/useTable";
-import { DataGridQ, TRow } from "@components/dataGrid/DataGridQ";
+import { DataGridQ } from "@components/dataGrid/DataGridQ";
 import { TableList } from "@components/tableList/TableList";
-import type { Column } from "react-data-grid";
 import DataGridFooter from "@components/dataGrid/DataGridFooter";
 import DashboardSidebar from "@components/dashboard/DashboardSidebar";
 import DashboardPageWrapper from "@components/dashboard/DashboardPageWrapper";
 import DashboardMainArea from "@components/dashboard/DashboardMainArea";
-import {
-  getGridColsFromTableResult,
-  getGridRowsFromTableResult,
-} from "@components/dataGrid/helpers";
 
 export default function TablesPage() {
   const {
@@ -87,29 +82,14 @@ export default function TablesPage() {
     data: tableData,
     isLoading: tableDataIsLoading,
     isError: tableDataIsError,
+    columns,
+    rows,
   } = useTable({
     schemaName: doesTableBelongToSchema ? schemaValue : undefined,
     tableName: doesTableBelongToSchema ? selectedTable : undefined,
   });
 
   const [schemaOpen, setSchemaOpen] = useState<boolean>(false);
-
-  const [columns, setColumns] = useState<Column<TRow, any>[]>(
-    getGridColsFromTableResult({ data: tableData })
-  );
-  const [rows, setRows] = useState<any[]>(
-    getGridRowsFromTableResult({ data: tableData })
-  );
-
-  useEffect(() => {
-    if (!tableData) {
-      setColumns([]);
-      setRows([]);
-    } else {
-      setColumns(getGridColsFromTableResult({ data: tableData }));
-      setRows(getGridRowsFromTableResult({ data: tableData }));
-    }
-  }, [tableData]);
 
   const isTableListLoading =
     schemaValue === undefined ||
@@ -128,9 +108,7 @@ export default function TablesPage() {
     !schemasIsLoading &&
     !schemaTablesIsLoading &&
     !tableDataIsLoading &&
-    tableData === null &&
-    columns.length === 0 &&
-    rows.length === 0;
+    tableData === null;
 
   return (
     <DashboardPageWrapper>

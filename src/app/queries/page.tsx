@@ -6,35 +6,40 @@ import QueryEditor from "@components/queryEditor/QueryEditor";
 import { useMonaco } from "@monaco-editor/react";
 import { connectionString } from "@ts/db/connectionString";
 import { TTableResult } from "@ts/db/hooks/useTable";
-import {
-  getGridColsFromTableResult,
-  getGridRowsFromTableResult,
-} from "@components/dataGrid/helpers";
+import { getGridColsAndRowsFromTableResult } from "@components/dataGrid/helpers";
 import { useState } from "react";
 import { Column } from "react-data-grid";
 import { DataGridQ, TRow } from "@components/dataGrid/DataGridQ";
+import { useLoadingState } from "@ts/utils/useLoadingState";
 
 export default function QueriesPage() {
   const monaco = useMonaco();
   const [columns, setColumns] = useState<Column<TRow, any>[]>([]);
+  const { isLoading, isError, setIsLoading, setIsError } = useLoadingState();
   const [rows, setRows] = useState<any[]>([]);
   const [resultLength, setResultLength] = useState<number | undefined>(
     undefined
   );
 
   async function handleRunClick() {
-    console.log("run");
+    setIsLoading(true);
+    setIsError(false);
     const query = monaco.editor.getEditors()[0].getValue();
     try {
       const res = await runQuery(query, connectionString);
-      const cols = getGridColsFromTableResult({ data: res, hasSelect: false });
-      const rows = getGridRowsFromTableResult({ data: res });
+      const { cols, rows } = getGridColsAndRowsFromTableResult({
+        data: res,
+        hasSelect: false,
+      });
       setColumns(cols);
       setRows(rows);
       setResultLength(res.rows.length);
       console.log(res);
     } catch (error) {
       console.log(error);
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -71,7 +76,12 @@ export default function QueriesPage() {
             </div>
           </div>
           <div className="w-full flex-1 flex flex-col overflow-hidden border-t border-border">
-            <DataGridQ isLoading={false} columns={columns} rows={rows} />
+            <DataGridQ
+              isLoading={isLoading}
+              isError={isError}
+              columns={columns}
+              rows={rows}
+            />
           </div>
         </section>
       </DashboardMainArea>
