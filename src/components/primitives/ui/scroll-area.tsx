@@ -18,7 +18,7 @@ const ScrollArea = React.forwardRef<
     {
       className,
       type = "scroll",
-      scrollHideDelay = 1500,
+      scrollHideDelay = 1250,
       viewportMode = "vertical",
       children,
       ...props
