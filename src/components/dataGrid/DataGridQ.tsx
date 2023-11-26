@@ -12,6 +12,7 @@ import DataGrid, {
 import "react-data-grid/lib/styles.css";
 import "@css/grid.css";
 import { useState } from "react";
+import { ScrollArea, ScrollBar } from "@components/primitives/ui/scroll-area";
 
 export type TRow = Record<string, any>;
 
@@ -59,15 +60,18 @@ export function DataGridQ({
   }
 
   return (
-    <DataGrid
-      onSelectedRowsChange={setSelectedRows}
-      selectedRows={selectedRows}
-      className="fill-grid data-grid"
-      columns={columns}
-      rows={rows}
-      rowKeyGetter={rowKeyGetter}
-      renderers={{ renderCheckbox }}
-    />
+    <ScrollArea viewportMode="full">
+      <DataGrid
+        onSelectedRowsChange={setSelectedRows}
+        selectedRows={selectedRows}
+        className="fill-grid data-grid"
+        columns={columns}
+        rows={rows}
+        rowKeyGetter={rowKeyGetter}
+        renderers={{ renderCheckbox }}
+      />
+      <ScrollBar orientation="horizontal" />
+    </ScrollArea>
   );
 }
 

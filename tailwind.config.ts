@@ -99,6 +99,8 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       spacing: {
+        "1.5px": "1.5px",
+        "2px": "2px",
         "1.25": "0.3125rem",
         "4.5": "1.125rem",
         13: "3.25rem",

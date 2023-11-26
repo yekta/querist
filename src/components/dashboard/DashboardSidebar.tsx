@@ -14,7 +14,7 @@ export default function DashboardSidebar({
         <p className="px-4.5 py-3 font-black text-xl">{title}</p>
       </div>
       <div className="w-full flex-1 flex flex-col items-start justify-start overflow-hidden">
-        <ScrollArea className="w-full flex-1 flex flex-col items-start justify-start">
+        <ScrollArea>
           <div className="w-full flex flex-col pb-16">{children}</div>
         </ScrollArea>
       </div>
