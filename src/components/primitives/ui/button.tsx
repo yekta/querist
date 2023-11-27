@@ -6,7 +6,7 @@ import { cn } from "@/components/primitives/utils";
 
 const buttonVariants = cva(
   `cursor-default inline-flex items-center justify-center whitespace-nowrap
-  text-sm font-medium transition-colors focus-visible:outline-none 
+  text-sm font-medium transition focus-visible:outline-none 
   focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-60`,
   {
     variants: {
@@ -45,11 +45,27 @@ export interface ButtonProps
   asChild?: boolean;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+const Button = React.forwardRef<
+  HTMLButtonElement,
+  ButtonProps & { isLoading?: boolean }
+>(
+  (
+    {
+      className,
+      variant,
+      disabled,
+      isLoading,
+      size,
+      asChild = false,
+      ...props
+    },
+    ref
+  ) => {
     const Comp = asChild ? Slot : "button";
     return (
       <Comp
+        data-isloading={isLoading ? "" : undefined}
+        disabled={disabled || isLoading}
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}

@@ -115,6 +115,9 @@
   66%,100% {background-position: 100% 0,50% 50%,0    100%}
   }
 
+  .loader-background {
+    --c:no-repeat linear-gradient(rgb(var(--background)/1) 0 0);
+  }
   /* For most browsers */
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {

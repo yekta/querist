@@ -11,6 +11,8 @@ import { useState } from "react";
 import { Column } from "react-data-grid";
 import { DataGridQ, TRow } from "@components/dataGrid/DataGridQ";
 import { useLoadingState } from "@ts/utils/useLoadingState";
+import IconLoading from "@components/icons/IconLoading";
+import { PlayIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
 
 export default function QueriesPage() {
   const monaco = useMonaco();
@@ -54,23 +56,37 @@ export default function QueriesPage() {
         </section>
         <section className="w-full flex-1 flex flex-col border-t border-border overflow-hidden z-10">
           <div className="w-full flex items-center justify-start p-2.5">
-            <p className="w-[10rem] max-w-full text-lg font-bold px-2.5">
-              Results
-              {resultLength !== undefined && (
-                <span className="text-foreground/60 font-normal text-sm px-1">
-                  ({resultLength})
-                </span>
+            <div className="w-[10rem] flex-shrink min-w-0 px-2.5 flex items-center">
+              <p className="text-lg font-bold">Results</p>
+              {isLoading ? (
+                <IconLoading className="w-3.5 h-3.5 opacity-60 ml-2" />
+              ) : (
+                resultLength !== undefined && (
+                  <span className="text-foreground/60 font-normal text-sm px-1">
+                    ({resultLength})
+                  </span>
+                )
               )}
-            </p>
+            </div>
             <div className="flex items-center justify-start gap-2">
               <Button
                 onClick={handleRunClick}
                 variant="foreground"
                 className="h-8"
+                disabled={isLoading}
               >
+                {isLoading ? (
+                  <IconLoading
+                    className="w-4 h-4 mr-1 shrink-0"
+                    color="background"
+                  />
+                ) : (
+                  <PlayIcon className="w-4 h-4 mr-1 shrink-0" strokeWidth={2} />
+                )}
                 Run
               </Button>
               <Button variant="foreground-outline" className="h-8">
+                <DocumentTextIcon className="w-4 h-4 mr-1 shrink-0" />
                 Explain
               </Button>
             </div>
