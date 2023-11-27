@@ -61,16 +61,16 @@ const ScrollBar = React.forwardRef<
     className={cn(
       "flex touch-none select-none transition-colors group",
       orientation === "vertical" &&
-        "h-full w-[12px] px-2px py-2px hover:w-[14px] border-l border-l-transparent hover:border-l-border before:w-[24px] before:h-full before:absolute before:right-0 before:top-0",
+        "h-full w-[12px] px-2.5px py-2.5px hover:w-[15px] border-l border-l-transparent hover:border-l-border before:w-[24px] before:h-full before:absolute before:right-0 before:top-0",
       orientation === "horizontal" &&
-        "w-full h-[12px] py-2px px-2px hover:h-[14px] flex-col border-t border-t-transparent hover:border-t-border before:h-[24px] before:w-full before:absolute before:left-0 before:bottom-0",
-      "transition-all duration-150 hover:bg-background-secondary",
+        "w-full h-[12px] py-2.5px px-2.5px hover:h-[15px] flex-col border-t border-t-transparent hover:border-t-border before:h-[24px] before:w-full before:absolute before:left-0 before:bottom-0",
+      "transition-all bg-background duration-150 hover:bg-background-secondary",
       className
     )}
     {...props}
   >
     <ScrollAreaPrimitive.ScrollAreaThumb
-      className={`relative flex-1 bg-muted-foreground/90 group-hover:bg-muted-foreground`}
+      className={`relative flex-1 bg-muted-foreground/75 group-hover:bg-muted-foreground`}
     />
   </ScrollAreaPrimitive.ScrollAreaScrollbar>
 ));
