@@ -19,14 +19,16 @@ module.exports = {
       colors: {
         border: {
           DEFAULT: "rgb(var(--border) / <alpha-value>)",
-          stronger: "rgb(var(--border-stronger) / <alpha-value>)",
+        },
+        scrollbar: {
+          DEFAULT: "rgb(var(--scrollbar) / <alpha-value>)",
+          stronger: "rgb(var(--scrollbar-stronger) / <alpha-value>)",
         },
         input: "rgb(var(--input) / <alpha-value>)",
         ring: "rgb(var(--ring) / <alpha-value>)",
         background: {
           DEFAULT: "rgb(var(--background) / <alpha-value>)",
           secondary: "rgb(var(--background-secondary) / <alpha-value>)",
-          tertiary: "rgb(var(--background-tertiary) / <alpha-value>)",
         },
         foreground: "rgb(var(--foreground) / <alpha-value>)",
         primary: {
@@ -38,16 +40,14 @@ module.exports = {
           foreground: "hsl(var(--secondary-foreground))",
         },
         success: "rgb(var(--success) / <alpha-value>)",
-        danger: "rgb(var(--danger) / <alpha-value>)",
         destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+          DEFAULT: "rgb(var(--destructive) / <alpha-value>)",
+          foreground: "rgb(var(--destructive-foreground) / <alpha-value>)",
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: {
             DEFAULT: "rgb(var(--muted-foreground) / <alpha-value>)",
-            stronger: "rgb(var(--muted-foreground-stronger) / <alpha-value>)",
           },
         },
         accent: {
