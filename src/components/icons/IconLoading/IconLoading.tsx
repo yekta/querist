@@ -1,4 +1,5 @@
 import { iconDefaultClassName } from "@components/icons/constants";
+import "./style.css";
 
 export default function IconLoading({
   className = iconDefaultClassName,

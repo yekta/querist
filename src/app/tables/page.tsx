@@ -1,4 +1,4 @@
-import IconLoading from "@components/icons/IconLoading";
+import IconLoading from "@components/icons/IconLoading/IconLoading";
 import { Combobox, TComboboxItem } from "@components/primitives/ui/combobox";
 import { DocumentTextIcon } from "@heroicons/react/24/outline";
 import { useSchemas } from "@ts/db/hooks/useSchemas";

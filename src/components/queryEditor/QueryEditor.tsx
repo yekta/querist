@@ -1,4 +1,4 @@
-import IconLoading from "@components/icons/IconLoading";
+import IconLoading from "@components/icons/IconLoading/IconLoading";
 import { useTheme } from "@components/providers/ThemeProvider";
 import {
   getDefineThemeProps,

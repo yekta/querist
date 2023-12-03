@@ -40,9 +40,9 @@ module.exports = {
           foreground: "hsl(var(--secondary-foreground))",
         },
         success: "rgb(var(--success) / <alpha-value>)",
-        destructive: {
-          DEFAULT: "rgb(var(--destructive) / <alpha-value>)",
-          foreground: "rgb(var(--destructive-foreground) / <alpha-value>)",
+        danger: {
+          DEFAULT: "rgb(var(--danger) / <alpha-value>)",
+          foreground: "rgb(var(--danger-foreground) / <alpha-value>)",
         },
         accent: {
           DEFAULT: "rgb(var(--accent) / <alpha-value>)",

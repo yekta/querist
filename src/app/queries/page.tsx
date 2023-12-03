@@ -11,7 +11,7 @@ import { useState } from "react";
 import { Column } from "react-data-grid";
 import { DataGridQ, TRow } from "@components/dataGrid/DataGridQ";
 import { useLoadingState } from "@ts/utils/useLoadingState";
-import IconLoading from "@components/icons/IconLoading";
+import IconLoading from "@components/icons/IconLoading/IconLoading";
 import { PlayIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
 
 export default function QueriesPage() {
