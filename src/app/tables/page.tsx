@@ -132,7 +132,7 @@ export default function TablesPage() {
                 open={schemaOpen}
                 setOpen={setSchemaOpen}
                 items={schemas}
-                noResultText="No schemas found."
+                noResultText="No schemas found"
                 notSelectedText="Select a schema"
                 searchPlaceholder="Search schemas"
                 SelectedItemIcon={DocumentTextIcon}

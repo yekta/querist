@@ -24,12 +24,12 @@ export function TableListItem({
       >
         <TableCellsIcon
           data-selected={isSelected ? "" : undefined}
-          className="w-4 h-4 shrink-0 mr-2 group-hover:text-foreground data-[selected]:text-foreground text-foreground/60"
+          className="w-4 h-4 shrink-0 mr-2 group-hover:text-foreground data-[selected]:text-foreground text-foreground/75"
         />
         <p
           data-selected={isSelected ? "" : undefined}
           className="shrink min-w-0 overflow-hidden overflow-ellipsis group-hover:text-foreground 
-          data-[selected]:text-foreground text-foreground/60"
+          data-[selected]:text-foreground data-[selected]:font-semibold text-foreground/75"
         >
           {tableName}
         </p>

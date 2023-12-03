@@ -80,7 +80,7 @@ function NavbarLink({ href, label, iconType, isSelected }: TNavbarLinkProps) {
       <IconSetNavbar
         type={iconType}
         data-selected={isSelected ? "" : undefined}
-        className="w-6 h-6 transition group-hover/navlink:text-foreground text-foreground/60 
+        className="w-6 h-6 transition group-hover/navlink:text-foreground text-foreground/75 
         data-[selected]:text-foreground group-hover/navlink:data-[selected]:text-foreground"
       />
     </Link>

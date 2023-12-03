@@ -1,6 +1,5 @@
 "use client";
 
-import IconLoading from "@components/icons/IconLoading";
 import { Button } from "@components/primitives/ui/button";
 import {
   Command,
@@ -89,7 +88,7 @@ export function Combobox({
               ? items.find((item) => item.value === value)?.label
               : notSelectedText}
           </p>
-          <ChevronUpDownIcon className="ml-2 -mr-1.5 h-5 w-5 shrink-0 text-muted-foreground" />
+          <ChevronUpDownIcon className="ml-2 -mr-1.5 h-5 w-5 shrink-0 text-foreground/60" />
         </Button>
       </PopoverTrigger>
       {!isLoading && !isError && items !== undefined && (
@@ -121,7 +120,14 @@ export function Combobox({
                       value === item.value ? "opacity-100" : "opacity-0"
                     )}
                   />
-                  <p className="min-w-0 flex-shrink overflow-hidden overflow-ellipsis">
+                  <p
+                    className={cn(
+                      "min-w-0 flex-shrink overflow-hidden overflow-ellipsis",
+                      value === item.value
+                        ? "font-semibold text-foreground"
+                        : "font-normal"
+                    )}
+                  >
                     {item.label}
                   </p>
                 </CommandItem>
