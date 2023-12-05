@@ -1,7 +1,7 @@
 .loader-container {
   --size: 100;
   --stroke: 16;
-  --speed: 3.5s;
+  --duration: 3.5s;
   --mult: calc(var(--size) / var(--stroke));
   --stroke-percent: calc(var(--stroke) * 1%);
   --size-percent: calc(var(--size) * 1%);
@@ -16,7 +16,7 @@
   left: calc(50% - var(--stroke-percent) / 2);
   width: var(--stroke-percent);
   height: var(--stroke-percent);
-  animation: center-line var(--speed) ease infinite;
+  animation: center-line var(--duration) ease infinite;
 }
 
 .loader-left-line,
@@ -24,11 +24,11 @@
   position: absolute;
   width: var(--stroke-percent);
   height: var(--stroke-percent);
-  animation: explore var(--speed) ease infinite;
+  animation: side-line var(--duration) ease infinite;
 }
 
 .loader-right-line {
-  animation-delay: calc(var(--speed) * -0.5);
+  animation-delay: calc(var(--duration) * -0.5);
 }
 
 @keyframes center-line {
@@ -49,7 +49,7 @@
   }
 }
 
-@keyframes explore {
+@keyframes side-line {
   0%,
   100% {
     transform: scaleX(1) scaleY(1) translate(0%, 0%);
