@@ -120,7 +120,10 @@ export default function TablesPage() {
                 Schema
               </p>
               {schemasIsRefetching && (
-                <IconLoading className="w-4 h-4 opacity-60" />
+                <IconLoading
+                  className="w-4 h-4"
+                  colorClassName="bg-foreground/60"
+                />
               )}
             </div>
             <div className="w-full px-3">
@@ -146,7 +149,10 @@ export default function TablesPage() {
               Tables
             </p>
             {schemaTablesIsRefetching && (
-              <IconLoading className="w-4 h-4 opacity-60" />
+              <IconLoading
+                className="w-4 h-4"
+                colorClassName="bg-foreground/60"
+              />
             )}
           </div>
           <div className="w-full flex flex-col">

@@ -59,7 +59,10 @@ export default function QueriesPage() {
             <div className="w-[10rem] flex-shrink min-w-0 px-2.5 flex items-center">
               <p className="text-lg font-bold">Results</p>
               {isLoading ? (
-                <IconLoading className="w-3.5 h-3.5 opacity-60 ml-2" />
+                <IconLoading
+                  className="w-3.5 h-3.5 ml-2"
+                  colorClassName="bg-foreground/60"
+                />
               ) : (
                 resultLength !== undefined && (
                   <span className="text-foreground/60 font-normal text-sm px-1">
@@ -78,7 +81,7 @@ export default function QueriesPage() {
                 {isLoading ? (
                   <IconLoading
                     className="w-4 h-4 mr-1 shrink-0"
-                    color="background"
+                    colorClassName="bg-background"
                   />
                 ) : (
                   <PlayIcon className="w-4 h-4 mr-1 shrink-0" strokeWidth={2} />

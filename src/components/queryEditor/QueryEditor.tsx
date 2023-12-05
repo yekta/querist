@@ -36,7 +36,7 @@ export default function QueryEditor({ monaco }: { monaco: any }) {
 function EditorLoading() {
   return (
     <div className="w-full flex-1 flex flex-col items-center justify-center gap-2">
-      <IconLoading className="w-8 h-8 opacity-60" />
+      <IconLoading className="w-8 h-8" colorClassName="bg-foreground/60" />
       <p className="text-foreground/0">Loading</p>
     </div>
   );

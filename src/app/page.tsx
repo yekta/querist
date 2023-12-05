@@ -1,3 +1,4 @@
+import IconLoading from "@components/icons/IconLoading/IconLoading";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 
@@ -12,6 +13,8 @@ export default function HomePage() {
     }
   }, []);
   return (
-    <div className="w-full flex-1 flex items-center justify-center">Home</div>
+    <div className="w-full flex-1 flex items-center justify-center">
+      <IconLoading />
+    </div>
   );
 }
